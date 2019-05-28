@@ -120,12 +120,12 @@ def get_user(pk):
 
 def add_user(user):
     session = DBSession()
-    user = User(user['name'], user['username'], user['email'], user['password'])
+    user_obj = User(user['name'], user['username'], user['email'], user['password'])
 
-    session.add(user)
+    session.add(user_obj)
     session.commit()
 
-    dic = as_dict(user)
+    dic = as_dict(user_obj)
     session.close()
 
     return dic
@@ -168,3 +168,119 @@ def get_projects():
 
     session.close()
     return res_list
+
+
+def get_project(pk):
+    session = DBSession()
+    res = session.query(Project).get(pk)
+
+    project = as_dict(res)
+    session.close()
+    return project
+
+
+def add_project(project):
+    session = DBSession()
+    project_obj = Project(project['title'], project['creation_date'], project['last_updated'], project['user'])
+
+    session.add(project_obj)
+    session.commit()
+
+    dic = as_dict(project_obj)
+    session.close()
+
+    return dic
+
+
+def update_project(project, data):
+    session = DBSession()
+    p = session.query(User).get(project['id'])
+    if data['title'] is not "":
+        p.title = data['title']
+    if data['creation_date'] is not "":
+        p.creation_date = data['creation_date']
+    if data['last_updated'] is not "":
+        p.last_updated = data['last_updated']
+    if data['user'] is not "":
+        p.user = data['user']
+
+    session.commit()
+
+    project_id = p.id
+    session.close()
+    return get_project(project_id)
+
+
+def remove_project(project):
+    session = DBSession()
+    p = session.query(Project).get(project['id'])
+    session.delete(project)
+
+    session.commit()
+    session.close()
+
+
+def get_tasks():
+    session = DBSession()
+    res = session.query(Task).all()
+    res_list = []
+    for task in res:
+        res_list.append(as_dict(task))
+
+    session.close()
+    return res_list
+
+
+def get_task(pk):
+    session = DBSession()
+    res = session.query(Task).get(pk)
+
+    task = as_dict(res)
+    session.close()
+    return task
+
+
+def add_task(task):
+    session = DBSession()
+    task_obj = Task(task['title'], task['order'], task['creation_date'], task['due_date'], task['completed'],
+                    task['project'])
+
+    session.add(task_obj)
+    session.commit()
+
+    dic = as_dict(task_obj)
+    session.close()
+
+    return dic
+
+
+def update_task(task, data):
+    session = DBSession()
+    t = session.query(User).get(task['id'])
+    if data['title'] is not "":
+        t.title = data['title']
+    if data['order'] is not "":
+        t.order = data['order']
+    if data['creation_date'] is not "":
+        t.creation_date = data['creation_date']
+    if data['due_date'] is not "":
+        t.due_date = data['due_date']
+    if data['completed'] is not "":
+        t.completed = data['completed']
+    if data['project'] is not "":
+        t.project = data['project']
+
+    session.commit()
+
+    task_id = t.id
+    session.close()
+    return get_user(task_id)
+
+
+def remove_task(task):
+    session = DBSession()
+    t = session.query(Task).get(task['id'])
+    session.delete(t)
+
+    session.commit()
+    session.close()
