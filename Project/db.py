@@ -6,7 +6,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy import Column, String, Integer, Date, Boolean
+from sqlalchemy import Column, String, Integer, DateTime, Boolean
 from sqlalchemy.schema import ForeignKey
 from datetime import datetime, timedelta
 
@@ -14,6 +14,8 @@ Base = declarative_base()
 
 
 def as_dict(obj):
+    if obj is None:
+        return {}
     return {c.name: getattr(obj, c.name) for c in obj.__table__.columns}
 
 
@@ -38,15 +40,15 @@ class Project(Base):
 
     id = Column(Integer, primary_key=True)
     title = Column(String)
-    creation_date = Column(Date)
-    last_updated = Column(Date)
+    creation_date = Column(DateTime)
+    last_updated = Column(DateTime)
 
     user = Column(Integer, ForeignKey("users.id"), nullable=False)
 
-    def __init__(self, title, creation_date, last_updated, user_id):
+    def __init__(self, title, user_id):
         self.title = title
-        self.creation_date = creation_date
-        self.last_updated = last_updated
+        self.creation_date = datetime.now()
+        self.last_updated = datetime.now()
         self.user = user_id
 
 
@@ -56,16 +58,16 @@ class Task(Base):
     id = Column(Integer, primary_key=True)
     title = Column(String)
     order = Column(Integer)
-    creation_date = Column(Date)
-    due_date = Column(Date)
+    creation_date = Column(DateTime)
+    due_date = Column(DateTime)
     completed = Column(Boolean)
 
     project = Column(Integer, ForeignKey("projects.id"), nullable=False)
 
-    def __init__(self, title, order, creation_date, due_date, completed, project_id):
+    def __init__(self, title, order, due_date, completed, project_id):
         self.title = title
         self.order = order
-        self.creation_date = creation_date
+        self.creation_date = datetime.now()
         self.due_date = due_date
         self.completed = completed
         self.project = project_id
@@ -85,13 +87,15 @@ def recreate_db():
     ana = User('Ana', "anocas", "anocas@gmail.com", "123")
     paulo = User('Paulo', "paulocas", "paulinho@yahoo.com", "123")
 
-    project1 = Project("first project", datetime.now(), datetime.now(), 1)
+    project1 = Project("first project", 1)
+    project2 = Project("second project", 2)
     due_date = datetime.now() + timedelta(days=2)
-    task1 = Task("task1", 1, datetime.now(), due_date, False, 1)
+    task1 = Task("task1", 1, due_date, False, 1)
 
     session.add(ana)
     session.add(paulo)
     session.add(project1)
+    session.add(project2)
     session.add(task1)
 
     session.commit()
@@ -179,9 +183,21 @@ def get_project(pk):
     return project
 
 
+def get_projects_of_user(user_pk):
+    session = DBSession()
+    res = session.query(Project).join(User).filter(User.id == user_pk)
+
+    res_list = []
+    for project in res:
+        res_list.append(as_dict(project))
+
+    session.close()
+    return res_list
+
+
 def add_project(project):
     session = DBSession()
-    project_obj = Project(project['title'], project['creation_date'], project['last_updated'], project['user'])
+    project_obj = Project(project['title'], project['user'])
 
     session.add(project_obj)
     session.commit()
@@ -214,15 +230,15 @@ def update_project(project, data):
 def remove_project(project):
     session = DBSession()
     p = session.query(Project).get(project['id'])
-    session.delete(project)
+    session.delete(p)
 
     session.commit()
     session.close()
 
 
-def get_tasks():
+def get_tasks(project_pk):
     session = DBSession()
-    res = session.query(Task).all()
+    res = session.query(Task).join(Project).filter(Project.id == project_pk)
     res_list = []
     for task in res:
         res_list.append(as_dict(task))
@@ -231,18 +247,20 @@ def get_tasks():
     return res_list
 
 
-def get_task(pk):
+def get_task(project_pk, pk):
     session = DBSession()
-    res = session.query(Task).get(pk)
+    res = session.query(Task).join(Project).filter(Project.id == project_pk).filter(Task.id == pk)
+    res_list = []
+    for task in res:
+        res_list.append(as_dict(task))
 
-    task = as_dict(res)
     session.close()
-    return task
+    return res_list
 
 
 def add_task(task):
     session = DBSession()
-    task_obj = Task(task['title'], task['order'], task['creation_date'], task['due_date'], task['completed'],
+    task_obj = Task(task['title'], task['order'], task['due_date'], task['completed'],
                     task['project'])
 
     session.add(task_obj)

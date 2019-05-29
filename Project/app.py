@@ -45,12 +45,26 @@ def single_user(pk):
         return make_response(jsonify(updated_user), 200)
 
 
+@app.route("/api/users/<int:user_pk>/projects/", methods=['GET'])
+def get_user_projects(user_pk):
+    user = db.get_user(user_pk)
+    if user is None:
+        return make_response(jsonify(), 404)
+
+    if request.method == 'GET':
+        projects = db.get_projects_of_user(user_pk)
+        if len(projects) == 0:
+            return make_response(jsonify(), 404)
+        return make_response(jsonify(projects))
+
+
 @app.route("/api/projects/", methods=['GET', 'POST'])
 def all_projects():
     if request.method == 'GET':
         projects = db.get_projects()
-
-        return make_response(jsonify(projects))
+        if projects is None:
+            return make_response(jsonify(), 404)
+        return make_response(jsonify(projects), 200)
 
     elif request.method == 'POST':
         project_json = request.get_json()
@@ -62,7 +76,7 @@ def all_projects():
 @app.route("/api/projects/<int:pk>/", methods=['GET', 'DELETE', 'PUT'])
 def single_project(pk):
     project = db.get_project(pk)
-    if project is None:
+    if len(project) == 0:
         return make_response(jsonify(), 404)
 
     if request.method == 'GET':
@@ -76,11 +90,12 @@ def single_project(pk):
         return make_response(jsonify(updated_project), 200)
 
 
-@app.route("/api/projects/<int:pk>/tasks/", methods=['GET', 'POST'])
-def all_tasks():
+@app.route("/api/projects/<int:project_pk>/tasks/", methods=['GET', 'POST'])
+def all_tasks(project_pk):
     if request.method == 'GET':
-        tasks = db.get_tasks()
-
+        tasks = db.get_tasks(project_pk)
+        if len(tasks) == 0:
+            return make_response(jsonify(), 404)
         return make_response(jsonify(tasks))
 
     elif request.method == 'POST':
@@ -90,10 +105,10 @@ def all_tasks():
         return make_response(jsonify(task), 201)
 
 
-@app.route("/api/projects/<int:pk>/tasks/<int:pk>", methods=['GET', 'DELETE', 'PUT'])
-def single_task(pk):
-    task = db.get_task(pk)
-    if task is None:
+@app.route("/api/projects/<int:project_pk>/tasks/<int:pk>", methods=['GET', 'DELETE', 'PUT'])
+def single_task(project_pk, pk):
+    task = db.get_task(project_pk, pk)
+    if len(task) == 0:
         return make_response(jsonify(), 404)
 
     if request.method == 'GET':
