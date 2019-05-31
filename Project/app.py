@@ -39,7 +39,7 @@ def login():
     username = data['username']
     password = data['password']
     user = get_user_login(username, password)
-    login_user(user)
+    login_user(user, remember=True)
 
     return make_response("You are now logged in", 200)
 
