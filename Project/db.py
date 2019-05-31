@@ -2,7 +2,7 @@
  Implements a simple database of users.
 
 """
-
+from flask_login import UserMixin
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
@@ -19,7 +19,7 @@ def as_dict(obj):
     return {c.name: getattr(obj, c.name) for c in obj.__table__.columns}
 
 
-class User(Base):
+class User(Base, UserMixin):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True)
@@ -57,7 +57,7 @@ class Task(Base):
 
     id = Column(Integer, primary_key=True)
     title = Column(String)
-    order = Column(Integer)
+    order = Column(Integer, autoincrement=True)
     creation_date = Column(DateTime)
     due_date = Column(DateTime)
     completed = Column(Boolean)
@@ -91,12 +91,14 @@ def recreate_db():
     project2 = Project("second project", 2)
     due_date = datetime.now() + timedelta(days=2)
     task1 = Task("task1", 1, due_date, False, 1)
+    task2 = Task("task2", 1, due_date, False, 2)
 
     session.add(ana)
     session.add(paulo)
     session.add(project1)
     session.add(project2)
     session.add(task1)
+    session.add(task2)
 
     session.commit()
     session.close()
@@ -122,6 +124,21 @@ def get_user(pk):
     return user
 
 
+def get_user_load(pk):
+    session = DBSession()
+    res = session.query(User).get(pk)
+
+    session.close()
+    return res
+
+
+def get_user_login(username, password):
+    session = DBSession()
+    res = session.query(User).filter_by(username=username, password=password).first()
+    session.close()
+    return res
+
+
 def add_user(user):
     session = DBSession()
     user_obj = User(user['name'], user['username'], user['email'], user['password'])
@@ -138,14 +155,16 @@ def add_user(user):
 def update_user(user, data):
     session = DBSession()
     u = session.query(User).get(user['id'])
-    if data['name'] is not "":
-        u.name = data['name']
-    if data['username'] is not "":
-        u.username = data['username']
-    if data['email'] is not "":
-        u.email = data['email']
-    if data['password'] is not "":
-        u.password = data['password']
+
+    for k, v in data.items():
+        if k == 'name':
+            u.name = v
+        if k == 'username':
+            u.username = v
+        if k == 'email':
+            u.email = v
+        if k == 'password':
+            u.password = v
 
     session.commit()
 
@@ -163,9 +182,10 @@ def remove_user(user):
     session.close()
 
 
-def get_projects():
+def get_projects(user_id):
     session = DBSession()
-    res = session.query(Project).all()
+    res = session.query(Project).join(User).filter(User.id == user_id)
+
     res_list = []
     for project in res:
         res_list.append(as_dict(project))
@@ -174,25 +194,21 @@ def get_projects():
     return res_list
 
 
-def get_project(pk):
+def get_project(pk, user_id):
     session = DBSession()
-    res = session.query(Project).get(pk)
+    res = session.query(Project).join(User).filter(User.id == user_id).filter(Project.id == pk).first()
 
     project = as_dict(res)
     session.close()
     return project
 
 
-def get_projects_of_user(user_pk):
+def get_project_load(pk, user_id):
     session = DBSession()
-    res = session.query(Project).join(User).filter(User.id == user_pk)
-
-    res_list = []
-    for project in res:
-        res_list.append(as_dict(project))
+    res = session.query(Project).join(User).filter(User.id == user_id).filter(Project.id == pk).first()
 
     session.close()
-    return res_list
+    return res
 
 
 def add_project(project):
@@ -210,15 +226,12 @@ def add_project(project):
 
 def update_project(project, data):
     session = DBSession()
-    p = session.query(User).get(project['id'])
-    if data['title'] is not "":
-        p.title = data['title']
-    if data['creation_date'] is not "":
-        p.creation_date = data['creation_date']
-    if data['last_updated'] is not "":
-        p.last_updated = data['last_updated']
-    if data['user'] is not "":
-        p.user = data['user']
+    p = session.query(Project).get(project['id'])
+
+    for k, v in data.items():
+        if k == 'title':
+            p.title = v
+    p.last_updated = datetime.now()
 
     session.commit()
 
@@ -250,17 +263,19 @@ def get_tasks(project_pk):
 def get_task(project_pk, pk):
     session = DBSession()
     res = session.query(Task).join(Project).filter(Project.id == project_pk).filter(Task.id == pk)
-    res_list = []
+    final_task = None
     for task in res:
-        res_list.append(as_dict(task))
+        final_task = (as_dict(task))
 
     session.close()
-    return res_list
+    return final_task
 
 
-def add_task(task):
+def add_task(task, project_pk):
     session = DBSession()
-    task_obj = Task(task['title'], task['order'], task['due_date'], task['completed'],
+    order = session.query(Task).join(Project).filter(Project.id == project_pk).count() + 1
+    date = datetime.strptime(task['due_date'], "%a, %d %B %Y %H:%M:%S %Z")
+    task_obj = Task(task['title'], order, date, task['completed'],
                     task['project'])
 
     session.add(task_obj)
@@ -272,27 +287,23 @@ def add_task(task):
     return dic
 
 
-def update_task(task, data):
+def update_task(project_pk, task, data):
     session = DBSession()
-    t = session.query(User).get(task['id'])
-    if data['title'] is not "":
-        t.title = data['title']
-    if data['order'] is not "":
-        t.order = data['order']
-    if data['creation_date'] is not "":
-        t.creation_date = data['creation_date']
-    if data['due_date'] is not "":
-        t.due_date = data['due_date']
-    if data['completed'] is not "":
-        t.completed = data['completed']
-    if data['project'] is not "":
-        t.project = data['project']
+    t = session.query(Task).get(task['id'])
+
+    for k, v in data.items():
+        if k == 'title':
+            t.title = v
+        if k == 'due_date':
+            t.date = datetime.strptime(v, "%a, %d %B %Y %H:%M:%S %Z")
+        if k == 'completed':
+            t.completed = v
 
     session.commit()
 
     task_id = t.id
     session.close()
-    return get_user(task_id)
+    return get_task(project_pk, task_id)
 
 
 def remove_task(task):

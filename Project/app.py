@@ -4,9 +4,15 @@
 """
 
 from flask import Flask, request, jsonify, make_response
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 import db
 
 app = Flask(__name__, static_url_path='/static')
+# change secret
+app.config['SECRET_KEY'] = "\xe7utGZI\xf6'\x95\xbe\xd1\x84\xac\xbb\xf1n"
+login_manager = LoginManager()
+
+login_manager.init_app(app)
 
 
 @app.route('/')
@@ -14,7 +20,39 @@ def index():
     return app.send_static_file('index.html')
 
 
-@app.route("/api/users/", methods=['GET', 'POST'])
+@login_manager.user_loader
+def load_user(user_id):
+    return db.get_user_load(user_id)
+
+
+@app.route('/api/user/login/', methods=['POST'])
+def login():
+    data = request.get_json()
+    username = data['username']
+    password = data['password']
+    user = db.get_user_login(username, password)
+    login_user(user)
+
+    return make_response("You are now logged in", 200)
+
+
+@app.route('/api/user/register/', methods=['POST'])
+def register():
+    user_json = request.get_json()
+    user = db.add_user(user_json)
+
+    return make_response(jsonify(user), 201)
+
+
+@app.route('/api/user/logout/', methods=['GET'])
+@login_required
+def logout():
+    logout_user()
+    return make_response("You are now logged out", 200)
+
+
+# check good
+@app.route("/api/user/", methods=['GET', 'POST'])
 def all_users():
     if request.method == 'GET':
         users = db.get_users()
@@ -28,7 +66,8 @@ def all_users():
         return make_response(jsonify(user), 201)
 
 
-@app.route("/api/users/<int:pk>/", methods=['GET', 'DELETE', 'PUT'])
+# check good
+@app.route("/api/user/<int:pk>/", methods=['GET', 'DELETE', 'PUT'])
 def single_user(pk):
     user = db.get_user(pk)
     if user is None:
@@ -45,23 +84,13 @@ def single_user(pk):
         return make_response(jsonify(updated_user), 200)
 
 
-@app.route("/api/users/<int:user_pk>/projects/", methods=['GET'])
-def get_user_projects(user_pk):
-    user = db.get_user(user_pk)
-    if user is None:
-        return make_response(jsonify(), 404)
-
-    if request.method == 'GET':
-        projects = db.get_projects_of_user(user_pk)
-        if len(projects) == 0:
-            return make_response(jsonify(), 404)
-        return make_response(jsonify(projects))
-
-
+# check good
 @app.route("/api/projects/", methods=['GET', 'POST'])
+@login_required
 def all_projects():
+    user = current_user
     if request.method == 'GET':
-        projects = db.get_projects()
+        projects = db.get_projects(user.id)
         if projects is None:
             return make_response(jsonify(), 404)
         return make_response(jsonify(projects), 200)
@@ -73,9 +102,12 @@ def all_projects():
         return make_response(jsonify(project), 201)
 
 
+# check good
 @app.route("/api/projects/<int:pk>/", methods=['GET', 'DELETE', 'PUT'])
+@login_required
 def single_project(pk):
-    project = db.get_project(pk)
+    user = current_user
+    project = db.get_project(pk, user.id)
     if len(project) == 0:
         return make_response(jsonify(), 404)
 
@@ -90,25 +122,33 @@ def single_project(pk):
         return make_response(jsonify(updated_project), 200)
 
 
+# check done
 @app.route("/api/projects/<int:project_pk>/tasks/", methods=['GET', 'POST'])
+@login_required
 def all_tasks(project_pk):
+    user = current_user
+    project = db.get_project_load(project_pk, user.id)
     if request.method == 'GET':
-        tasks = db.get_tasks(project_pk)
+        tasks = db.get_tasks(project.id)
         if len(tasks) == 0:
             return make_response(jsonify(), 404)
         return make_response(jsonify(tasks))
 
     elif request.method == 'POST':
         task_json = request.get_json()
-        task = db.add_project(task_json)
+        task = db.add_task(task_json, project_pk)
 
         return make_response(jsonify(task), 201)
 
 
-@app.route("/api/projects/<int:project_pk>/tasks/<int:pk>", methods=['GET', 'DELETE', 'PUT'])
+# check done
+@app.route("/api/projects/<int:project_pk>/tasks/<int:pk>/", methods=['GET', 'DELETE', 'PUT'])
+@login_required
 def single_task(project_pk, pk):
-    task = db.get_task(project_pk, pk)
-    if len(task) == 0:
+    user = current_user
+    project = db.get_project_load(project_pk, user.id)
+    task = db.get_task(project.id, pk)
+    if task is None:
         return make_response(jsonify(), 404)
 
     if request.method == 'GET':
@@ -118,7 +158,7 @@ def single_task(project_pk, pk):
         return make_response(jsonify(), 200)
     elif request.method == 'PUT':
         data = request.get_json()
-        updated_task = db.update_task(task, data)
+        updated_task = db.update_task(project_pk, task, data)
         return make_response(jsonify(updated_task), 200)
 
 

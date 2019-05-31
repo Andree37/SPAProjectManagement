@@ -8,12 +8,18 @@
     <h1>Users</h1>
     <ul id="users"></ul>
     <form id="form">
-        <input id=name name="text" placeholder="name" />
-        <input id=username name="text" placeholder="username"/>
-        <input id= email type="email" name="email" placeholder="email">
+        <input name=name name="text" placeholder="name" />
+        <input name=username name="text" placeholder="username"/>
+        <input name= email type="email" name="email" placeholder="email">
 
-        <input id=password type="password" name="password" placeholder="password">
+        <input name=password type="password" name="password" placeholder="password">
         <input type="button" value="Add user" onclick="addUser()" />
+    </form>
+
+    <form id="login">
+        <input name=username type="text" placeholder="username"/>
+        <input name=password type="password" name="password" placeholder="password">
+        <input type="button" value="Login" onclick="loginUser()" />
     </form>
 
     <ul id=projects></ul>

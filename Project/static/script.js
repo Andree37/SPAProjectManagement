@@ -21,6 +21,21 @@ function getUsers() {
     req.send();
 }
 
+function loginUser() {
+    var form = docuemnt.getElementById("login");
+    var username = form.username.value;
+    var password = form.password.value;
+
+    var req = new XMLHttpRequest();
+    req.open("GET", "/api/users/login/");
+    let json = JSON.stringify({
+        username: username,
+        password: password
+    });
+    req.setRequestHeader("Content-type", "application/json");
+    req.send(json);
+}
+
 function addUser() {
     var form = document.getElementById("form");
     var name = form.name.value;
@@ -29,7 +44,7 @@ function addUser() {
     var password = form.password.value;
 
     var req = new XMLHttpRequest();
-    req.open("POST", "/api/users/");
+    req.open("POST", "/api/users/register/");
     let json = JSON.stringify({
         name: name,
         username: username,
