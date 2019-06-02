@@ -201,8 +201,8 @@ class DataBase:
 
         return res
 
-    def add_project(self, project):
-        project_obj = Project(project['title'], project['user'])
+    def add_project(self, project, user_id):
+        project_obj = Project(project['title'], user_id)
 
         self.db.session.add(project_obj)
         self.db.session.commit()
@@ -248,9 +248,11 @@ class DataBase:
 
     def add_task(self, task, project_pk):
         order = self.db.session.query(Task).join(Project).filter(Project.id == project_pk).count() + 1
-        date = datetime.strptime(task['due_date'], "%a, %d %B %Y %H:%M:%S %Z")
-        task_obj = Task(task['title'], order, date, task['completed'],
-                        task['project'])
+        if 'due_date' in task:
+            date = datetime.strptime(task['due_date'], "%a, %d %b %Y %H:%M:%S %Z")
+        else:
+            date = datetime.now() + timedelta(days=2)
+        task_obj = Task(task['title'], order, date, False, project_pk)
 
         self.db.session.add(task_obj)
         self.db.session.commit()

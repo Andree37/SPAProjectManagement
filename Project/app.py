@@ -33,7 +33,14 @@ def login():
     data = request.get_json()
     username = data['username']
     password = data['password']
+    if username == "" or password == "":
+        return make_response("Enter valid username and password", 200)
+
     user = db.get_user_login(username, password)
+    if user is None:
+        return make_response("This is not a valid login", 200)
+
+    # if user exists and the fields are verified, login
     login_user(user, remember=True)
 
     return make_response("You are now logged in", 200)
@@ -100,7 +107,7 @@ def all_projects():
 
     elif request.method == 'POST':
         project_json = request.get_json()
-        project = db.add_project(project_json)
+        project = db.add_project(project_json, user.id)
 
         return make_response(jsonify(project), 201)
 
