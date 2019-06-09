@@ -1,28 +1,168 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
-    <meta charset="utf-8">
-    <title>REST Client</title>
-    <script type="text/javascript" src="/static/script.js" defer></script>
+  <title>Projects&Tasks</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/static/styles/login.css">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="/static/scripts.js" defer></script>
 </head>
+
 <body>
-    <h1>Users</h1>
-    <ul id="users"></ul>
-    <form id="form">
-        <input name=name name="text" placeholder="name" />
-        <input name=username name="text" placeholder="username"/>
-        <input name= email type="email" name="email" placeholder="email">
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">Project&Tasks</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Home</a></li>
+        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Projects<span
+              class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Project 1</a></li>
+            <li><a href="#">Project 2</a></li>
+          </ul>
+        </li>
+      </ul>
+      <div id="div_login">
+        <ul class="nav navbar-nav navbar-right">
+          <li onclick="document.getElementById('signup').style.display='block'"><a href="#"><span
+                class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+          <li onclick="document.getElementById('login').style.display='block'"><a href="#"><span
+                class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div id="login" class="modal">
 
-        <input name=password type="password" name="password" placeholder="password">
-        <input type="button" value="Add user" onclick="addUser()" />
+    <form id="login_form" class="modal-content animate">
+      <div class="imgcontainer">
+        <span onclick="document.getElementById('login').style.display='none'" class="close"
+          title="Close Modal">&times;</span>
+        <img src="img_avatar2.png" alt="Avatar" class="avatar">
+      </div>
+
+      <div class="container_user">
+        <label for="uname"><b>Username</b></label>
+        <input type="text" placeholder="Enter Username" name="uname" required>
+
+        <label for="psw"><b>Password</b></label>
+        <input type="password" placeholder="Enter Password" name="psw" required>
+
+        <button type="button" onclick="loginUser();">Login</button>
+        <label>
+          <input type="checkbox" checked="checked" name="remember"> Remember me
+        </label>
+      </div>
+
+      <div class="container_user" style="background-color:#f1f1f1">
+        <button type="button" onclick="document.getElementById('login').style.display='none'"
+          class="cancelbtn">Cancel</button>
+        <span class="psw">Forgot <a href="#">password?</a></span>
+      </div>
     </form>
+  </div>
+  <div id="signup" class="modal">
 
-    <form id="login">
-        <input name=username type="text" placeholder="username"/>
-        <input name=password type="password" name="password" placeholder="password">
-        <input type="button" value="Login" onclick="loginUser()" />
+    <form id="signup_form" class="modal-content animate">
+      <div class="imgcontainer">
+        <span onclick="document.getElementById('signup').style.display='none'" class="close"
+          title="Close Modal">&times;</span>
+        <img src="img_avatar2.png" alt="Andre" class="avatar">
+      </div>
+
+      <div class="container_user">
+        <label for="name"><b>Name</b></label>
+        <input type="text" value="" placeholder="Enter Name" name="name" required>
+
+        <label for="uname"><b>Username</b></label>
+        <input type="text" placeholder="Enter Username" name="uname" required>
+
+        <label for="email"><b>Email</b></label>
+        <input type="text" placeholder="Enter Email" name="email" required>
+
+        <label for="psw"><b>Password</b></label>
+        <input type="password" placeholder="Enter Password" name="psw" required>
+
+        <button type="button" onclick="signupUser();">Sign Up</button>
+      </div>
+
+      <div class="container_user" style="background-color:#f1f1f1">
+        <button type="button" onclick="document.getElementById('signup').style.display='none'"
+          class="cancelbtn">Cancel</button>
+      </div>
     </form>
+  </div>
+  <div id="project_add" class="modal">
 
-    <ul id=projects></ul>
-    <ul id=tasks></ul>
+    <form id="project_form" class="modal-content animate">
+      <div class="imgcontainer">
+        <span onclick="document.getElementById('signup').style.display='none'" class="close"
+          title="Close Modal">&times;</span>
+        <img src="img_avatar2.png" alt="Andre" class="avatar">
+      </div>
+
+      <div class="container_user">
+        <label for="title"><b>Name</b></label>
+        <input type="text" value="" placeholder="Enter Title" name="title" required>
+
+        <button type="button" onclick="addProject();">Add Project</button>
+      </div>
+
+      <div class="container_user" style="background-color:#f1f1f1">
+        <button type="button" onclick="document.getElementById('createProject').style.display='none'"
+          class="cancelbtn">Cancel</button>
+      </div>
+    </form>
+  </div>
+  <div id="projects" class="w3-container" style="width:80%; margin-left:10%">
+    <div id="projects_table"></div>
+  </div>
+
+
+  <footer>
+    <button style="margin-left: 80%; margin-right:5%; width: 15%" type="button" class="btn btn-success">Add
+      Project</button>
+  </footer>
+  <script>
+    // Get the modal
+    var modal = document.getElementById('login');
+    var modal2 = document.getElementById('signup');
+    var modal3 = document.getElementById('createProject');
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+      else if (event.target == modal2) {
+        modal2.style.display = "none";
+      }
+    }
+
+    function allowDrop(ev) {
+      ev.preventDefault();
+    }
+
+    function drag(ev, list) {
+      list.setAttribute("ondrop", "drop(event)");
+      list.setAttribute("ondragover", "allowDrop(event)");
+      ev.dataTransfer.setData("text", ev.target.id);
+      ev.dataTransfer.dropEffect = "none";
+    }
+
+    function drop(ev) {
+      ev.preventDefault();
+      var data = ev.dataTransfer.getData("text");
+      ev.target.appendChild(document.getElementById(data));
+    }
+  </script>
 </body>
+
 </html>

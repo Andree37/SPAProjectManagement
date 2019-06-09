@@ -5,12 +5,13 @@
 import datetime
 
 from flask import Flask, request, jsonify, make_response
-from flask_login import LoginManager, login_user, login_required, logout_user, current_user, UserMixin
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from db import DataBase
 
 app = Flask(__name__, static_url_path='/static')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///user.db'
 app.config['SECRET_KEY'] = "\xe7utGZI\xf6'\x95\xbe\xd1\x84\xac\xbb\xf1n"
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
 db = DataBase(app)
 
@@ -62,24 +63,10 @@ def logout():
 
 
 # check good
-@app.route("/api/user/", methods=['GET', 'POST'])
-def all_users():
-    if request.method == 'GET':
-        users = db.get_users()
-
-        return make_response(jsonify(users), 200)
-
-    elif request.method == 'POST':
-        user_json = request.get_json()
-        user = db.add_user(user_json)
-
-        return make_response(jsonify(user), 201)
-
-
-# check good
-@app.route("/api/user/<int:pk>/", methods=['GET', 'DELETE', 'PUT'])
-def single_user(pk):
-    user = db.get_user(pk)
+@app.route("/api/user/", methods=['GET', 'DELETE', 'PUT'])
+@login_required
+def single_user():
+    user = db.get_user(current_user.id)
     if user is None:
         return make_response(jsonify(), 404)
 
@@ -133,6 +120,7 @@ def single_project(pk):
 
 
 # check done
+# check if user has project
 @app.route("/api/projects/<int:project_pk>/tasks/", methods=['GET', 'POST'])
 @login_required
 def all_tasks(project_pk):
