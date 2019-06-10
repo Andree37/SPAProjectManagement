@@ -13,8 +13,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="126">
-              <caret line="142" column="58" selection-start-line="142" selection-start-column="12" selection-end-line="142" selection-end-column="58" />
+            <state relative-caret-position="194">
+              <caret line="58" column="45" selection-start-line="58" selection-start-column="42" selection-end-line="58" selection-end-column="45" />
               <folding>
                 <element signature="e#33#48#0" expanded="true" />
               </folding>
@@ -22,13 +22,25 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/db.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="152">
               <caret line="204" column="45" selection-start-line="204" selection-start-column="45" selection-end-line="204" selection-end-column="45" />
               <folding>
                 <element signature="e#49#89#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/test_app.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="108">
+              <caret line="6" selection-start-line="6" selection-end-line="6" />
+              <folding>
+                <element signature="e#2#17#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -63,20 +75,24 @@
         <option value="$PROJECT_DIR$/login.py" />
         <option value="$PROJECT_DIR$/settings.py" />
         <option value="$PROJECT_DIR$/db.py" />
+        <option value="$PROJECT_DIR$/app.test.py" />
+        <option value="$PROJECT_DIR$/app_test.py" />
         <option value="$PROJECT_DIR$/app.py" />
+        <option value="$PROJECT_DIR$/test_app.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-10" />
-    <option name="width" value="980" />
-    <option name="height" value="1040" />
+    <option name="x" value="952" />
+    <option name="width" value="977" />
+    <option name="height" value="1038" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -88,7 +104,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -111,7 +126,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.app">
+  <component name="RunManager">
     <configuration name="app" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Project" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -154,9 +169,39 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="Unittests for test_app.BasicTests" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="Project" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_app.BasicTests&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Unittests in test_app.py" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="Project" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/test_app.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python tests.Unittests for test_app.BasicTests" />
         <item itemvalue="Python.app" />
+        <item itemvalue="Python tests.Unittests in test_app.py" />
         <item itemvalue="Python.db" />
       </list>
     </recent_temporary>
@@ -173,6 +218,38 @@
       <updated>1559079916559</updated>
     </task>
     <servers />
+  </component>
+  <component name="TestHistory">
+    <history-entry file="Unittests_for_test_app_BasicTests - 2019.06.10 at 19h 55m 50s.xml">
+      <configuration name="Unittests for test_app.BasicTests" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_test_app_BasicTests - 2019.06.10 at 19h 56m 08s.xml">
+      <configuration name="Unittests for test_app.BasicTests" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_test_app_BasicTests - 2019.06.10 at 19h 56m 40s.xml">
+      <configuration name="Unittests for test_app.BasicTests" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_test_app_BasicTests - 2019.06.10 at 19h 57m 51s.xml">
+      <configuration name="Unittests for test_app.BasicTests" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_test_app_BasicTests - 2019.06.10 at 19h 59m 57s.xml">
+      <configuration name="Unittests for test_app.BasicTests" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_test_app_BasicTests - 2019.06.10 at 20h 06m 57s.xml">
+      <configuration name="Unittests for test_app.BasicTests" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_test_app_BasicTests - 2019.06.10 at 20h 08m 23s.xml">
+      <configuration name="Unittests for test_app.BasicTests" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_test_app_BasicTests - 2019.06.10 at 20h 09m 28s.xml">
+      <configuration name="Unittests for test_app.BasicTests" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_test_app_BasicTests - 2019.06.10 at 20h 11m 09s.xml">
+      <configuration name="Unittests for test_app.BasicTests" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_test_app_BasicTests - 2019.06.10 at 20h 11m 51s.xml">
+      <configuration name="Unittests for test_app.BasicTests" configurationId="tests" />
+    </history-entry>
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -198,7 +275,7 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32956153" />
       <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="Terminal" order="8" weight="0.33619457" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.33521923" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Python Console" order="10" weight="0.32956153" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -271,13 +348,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app.py">
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/json/decoder.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="142" column="58" selection-start-line="142" selection-start-column="12" selection-end-line="142" selection-end-column="58" />
-          <folding>
-            <element signature="e#33#48#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="301">
+          <caret line="354" selection-start-line="354" selection-end-line="354" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/requests/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="148">
+          <caret line="380" selection-start-line="380" selection-end-line="380" />
         </state>
       </provider>
     </entry>
@@ -287,6 +368,26 @@
           <caret line="204" column="45" selection-start-line="204" selection-start-column="45" selection-end-line="204" selection-end-column="45" />
           <folding>
             <element signature="e#49#89#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="194">
+          <caret line="58" column="45" selection-start-line="58" selection-start-column="42" selection-end-line="58" selection-end-column="45" />
+          <folding>
+            <element signature="e#33#48#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test_app.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="6" selection-start-line="6" selection-end-line="6" />
+          <folding>
+            <element signature="e#2#17#0" expanded="true" />
           </folding>
         </state>
       </provider>

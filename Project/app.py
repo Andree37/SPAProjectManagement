@@ -35,11 +35,12 @@ def login():
     username = data['username']
     password = data['password']
     if username == "" or password == "":
-        return make_response("Enter valid username and password", 200)
+        # change the 404
+        return make_response("Enter valid username and password", 404)
 
     user = db.get_user_login(username, password)
     if user is None:
-        return make_response("This is not a valid login", 200)
+        return make_response("This is not a valid login", 404)
 
     # if user exists and the fields are verified, login
     login_user(user, remember=True)
