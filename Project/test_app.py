@@ -13,19 +13,22 @@ class BasicTests(unittest.TestCase):
         response = s.get(base_url)
         self.assertEqual(response.status_code, 200)
 
-    def test_register(self):
+    def test_register_ok(self):
+        """Register should return 201"""
         test_url = base_url + 'api/user/register/'
+
 
         # Valid Input with new data
         response = s.post(test_url,
                           json={'name': 'test', 'username': 'user_test', 'email': 'test@email.com', 'password': '123'})
         self.assertEqual(response.status_code, 201)
 
+
         # Valid Input with old
         response = s.post(test_url,
                           json={'name': 'test', 'username': 'user_test', 'email': 'test@email.com',
                                 'password': '123'})
-        self.assertEqual(response.status_code, 200)  # ? Shouldn't accept the data, but should return OK ?
+        self.assertEqual(response.status_code, 409)
         # Delete test user
         s.post('http://localhost:8000/api/user/login/', json={'username': 'user_test', 'password': '123'})
         s.delete('http://localhost:8000/api/user/')
@@ -33,11 +36,11 @@ class BasicTests(unittest.TestCase):
         # Bad Input
         response = s.post(test_url,
                           json={})
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 409)
 
         # NO Input
         response = s.post(test_url, None)
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 409)
 
     def test_login(self):
         test_url = base_url + 'api/user/login/'
@@ -53,7 +56,7 @@ class BasicTests(unittest.TestCase):
         self.assertEqual(response.status_code, 404)
 
         # bad data
-        response = requests.post(test_url, json={'BONKERS YEAH': 'CRAZY'})
+        response = requests.post(test_url, json={'bad': 'data'})
         self.assertEqual(response.status_code, 404)
 
         # no data
@@ -95,7 +98,6 @@ class BasicTests(unittest.TestCase):
         self.assertEqual(response.content, (s.get(test_url)).content)
         # bad update
         response = s.put(test_url, json={'bananas': '2'})
-        print(response.content)
         self.assertEqual(response.status_code, 404)
 
         # DELETE
@@ -103,7 +105,6 @@ class BasicTests(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         response = s.post('http://localhost:8000/api/user/login/', json={'username': 'user_test', 'password': '123'})
         self.assertEqual(response.status_code, 404)
-
 
 
 if __name__ == "__main__":

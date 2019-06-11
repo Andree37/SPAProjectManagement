@@ -19,16 +19,6 @@
       <div class="navbar-header">
         <a class="navbar-brand" href="#">Project&Tasks</a>
       </div>
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Home</a></li>
-        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Projects<span
-              class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Project 1</a></li>
-            <li><a href="#">Project 2</a></li>
-          </ul>
-        </li>
-      </ul>
       <div id="div_login">
         <ul class="nav navbar-nav navbar-right">
           <li onclick="document.getElementById('signup').style.display='block'"><a href="#"><span
@@ -45,7 +35,7 @@
       <div class="imgcontainer">
         <span onclick="document.getElementById('login').style.display='none'" class="close"
           title="Close Modal">&times;</span>
-        <img src="img_avatar2.png" alt="Avatar" class="avatar">
+        <img src="img_avatar2.png" alt="Login" class="avatar">
       </div>
 
       <div class="container_user">
@@ -74,7 +64,7 @@
       <div class="imgcontainer">
         <span onclick="document.getElementById('signup').style.display='none'" class="close"
           title="Close Modal">&times;</span>
-        <img src="img_avatar2.png" alt="Andre" class="avatar">
+        <img src="img_avatar2.png" alt="Sign Up" class="avatar">
       </div>
 
       <div class="container_user">
@@ -103,9 +93,9 @@
 
     <form id="project_form" class="modal-content animate">
       <div class="imgcontainer">
-        <span onclick="document.getElementById('signup').style.display='none'" class="close"
+        <span onclick="document.getElementById('project_to_add').style.display='none'" class="close"
           title="Close Modal">&times;</span>
-        <img src="img_avatar2.png" alt="Andre" class="avatar">
+        <img src="img_avatar2.png" alt="Add Project" class="avatar">
       </div>
 
       <div class="container_user">
@@ -116,7 +106,7 @@
       </div>
 
       <div class="container_user" style="background-color:#f1f1f1">
-        <button type="button" onclick="document.getElementById('createProject').style.display='none'"
+        <button type="button" onclick="document.getElementById('project_add').style.display='none'"
           class="cancelbtn">Cancel</button>
       </div>
     </form>
@@ -127,14 +117,15 @@
 
 
   <footer>
-    <button style="margin-left: 80%; margin-right:5%; width: 15%" type="button" class="btn btn-success">Add
+    <button onclick="document.getElementById('project_add').style.display='block'" style="margin-left: 80%; margin-right:5%; width: 15%" type="button" class="btn btn-success">Add
       Project</button>
   </footer>
+
   <script>
     // Get the modal
     var modal = document.getElementById('login');
     var modal2 = document.getElementById('signup');
-    var modal3 = document.getElementById('createProject');
+    var modal3 = document.getElementById('project_add');
 
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function (event) {
@@ -143,6 +134,9 @@
       }
       else if (event.target == modal2) {
         modal2.style.display = "none";
+      }
+      else if (event.target == modal3) {
+        modal3.style.display = "none";
       }
     }
 

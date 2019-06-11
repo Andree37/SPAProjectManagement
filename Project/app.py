@@ -2,8 +2,6 @@
  Flask REST application
 
 """
-import datetime
-
 from flask import Flask, request, jsonify, make_response
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from db import DataBase
@@ -32,9 +30,14 @@ def load_user(user_id):
 @app.route('/api/user/login/', methods=['POST'])
 def login():
     data = request.get_json()
-    username = data['username']
-    password = data['password']
-    if username == "" or password == "":
+    username = ""
+    password = ""
+    if data is not None:
+        if 'username' in data:
+            username = data['username']
+        if 'password' in data:
+            password = data['password']
+    if data is None or username == "" or password == "":
         # change the 404
         return make_response("Enter valid username and password", 404)
 
@@ -52,6 +55,8 @@ def login():
 def register():
     user_json = request.get_json()
     user = db.add_user(user_json)
+    if user is None:
+        return make_response(jsonify(), 409)
 
     return make_response(jsonify(user), 201)
 
@@ -78,7 +83,10 @@ def single_user():
         return make_response(jsonify(), 200)
     elif request.method == 'PUT':
         data = request.get_json()
-        updated_user = db.update_user(user, data)
+        updated_user, modified = db.update_user(user, data)
+        if not modified:
+            # if not modified do we change to 404???????????
+            return make_response(jsonify(), 404)
         return make_response(jsonify(updated_user), 200)
 
 
@@ -116,7 +124,7 @@ def single_project(pk):
         return make_response(jsonify(), 200)
     elif request.method == 'PUT':
         data = request.get_json()
-        updated_project = db.update_project(project, data)
+        updated_project = db.update_project(project, user.id, data)
         return make_response(jsonify(updated_project), 200)
 
 

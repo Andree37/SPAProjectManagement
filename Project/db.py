@@ -2,9 +2,9 @@
  Implements a simple database of users.
 
 """
-from datetime import datetime, timedelta
+from datetime import timedelta
 
-from flask import Flask
+from sqlalchemy import exc
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 from flask_login import UserMixin
@@ -147,10 +147,32 @@ class DataBase:
         return res
 
     def add_user(self, user):
-        user_obj = User(user['name'], user['username'], user['email'], user['password'])
+        name = ""
+        username = ""
+        email = ""
+        password = ""
+
+        if user is None:
+            return None
+
+        if 'name' in user:
+            name = user['name']
+        if 'username' in user:
+            username = user['username']
+        if 'email' in user:
+            email = user['email']
+        if 'password' in user:
+            password = user['password']
+
+        if name == "" or username == "" or email == "" or password == "":
+            return None
+        user_obj = User(name, username, email, password)
 
         self.db.session.add(user_obj)
-        self.db.session.commit()
+        try:
+            self.db.session.commit()
+        except exc.IntegrityError:
+            return None
 
         dic = as_dict(user_obj)
 
@@ -158,21 +180,26 @@ class DataBase:
 
     def update_user(self, user, data):
         u = self.db.session.query(User).get(user['id'])
+        modified = False
 
         for k, v in data.items():
             if k == 'name':
                 u.name = v
-            if k == 'username':
+                modified = True
+            elif k == 'username':
                 u.username = v
-            if k == 'email':
+                modified = True
+            elif k == 'email':
                 u.email = v
-            if k == 'password':
+                modified = True
+            elif k == 'password':
                 u.password = v
+                modified = True
 
         self.db.session.commit()
 
         user_id = u.id
-        return self.get_user(user_id)
+        return self.get_user(user_id), modified
 
     def remove_user(self, user):
         u = self.db.session.query(User).get(user['id'])
@@ -211,7 +238,7 @@ class DataBase:
 
         return dic
 
-    def update_project(self, project, data):
+    def update_project(self, project, user_id, data):
         p = self.db.session.query(Project).get(project['id'])
 
         for k, v in data.items():
@@ -222,7 +249,7 @@ class DataBase:
         self.db.session.commit()
 
         project_id = p.id
-        return self.get_project(project_id)
+        return self.get_project(project_id, user_id)
 
     def remove_project(self, project):
         p = self.db.session.query(Project).get(project['id'])

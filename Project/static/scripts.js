@@ -21,7 +21,28 @@ function signupUser() {
     });
     req.setRequestHeader("Content-type", "application/json");
     req.send(json);
-    location.reload();
+    req.addEventListener("load", function () {
+        login(username, password);
+    });
+}
+
+function login(username, password) {
+    var req = new XMLHttpRequest();
+    req.open("POST", "/api/user/login/");
+    let json = JSON.stringify({
+        username: username,
+        password: password
+    });
+    req.setRequestHeader("Content-type", "application/json");
+    req.send(json);
+
+    req.onload = function () {
+        if (req.status === 200) {
+            getUser();
+            getProjects();
+            location.reload();
+        }
+    }
 }
 
 function loginUser() {
@@ -123,6 +144,16 @@ function getProjects() {
             div.setAttribute("style", "padding-top: 2vh; margin-right: 4vh; width: 25%; display: inline-block;");
             div.textContent = projects[i].title + projects[i].creation_date + " to end at: " + projects[i].last_updated;
 
+            let button = document.createElement("button");
+            button.setAttribute("type", "button");
+            button.setAttribute("class", "btn btn-outline-danger");
+            button.setAttribute("onClick", "removeProject("+ projects[i].id +")")
+            button.textContent = "Remove Project";
+
+            let button_div = document.createElement("div");
+            button_div.appendChild(button);
+
+            div.appendChild(button_div);
             table.appendChild(div);
             getTasks(projects[i].id);
         }
@@ -140,7 +171,7 @@ function getTasks(project_id) {
         var project = document.getElementById("project" + project_id);
         var div = document.createElement("div");
         var ul = document.createElement("ul");
-        ul.setAttribute("id", "list"+project_id);
+        ul.setAttribute("id", "list" + project_id);
         ul.setAttribute("style", "padding: 0; margin: 0; margin-top: 1vh; list-style: none;");
 
         div.setAttribute("style", "display: inline");
@@ -163,7 +194,7 @@ function getTasks(project_id) {
             let li = document.createElement("li");
             li.setAttribute("id", "task" + tasks[j].id);
             li.setAttribute("draggable", "true");
-            li.setAttribute("ondragstart", "drag(event, list" +project_id+")");
+            li.setAttribute("ondragstart", "drag(event, list" + project_id + ")");
             li.setAttribute("ondrop", "ev.dataTransfer.dropEffect = 'none'");
             li.setAttribute("style", "padding: 0; margin: 0; width: 70%; display: inline;");
 
@@ -175,6 +206,7 @@ function getTasks(project_id) {
             remove.appendChild(remove_span);
 
             let line = document.createElement("p");
+            line.setAttribute("id", "line" + tasks[j].id);
             line.appendChild(checkbox_div);
             line.appendChild(content);
             line.appendChild(remove);
@@ -210,7 +242,48 @@ function setTaskState(project_id, task_id, state) {
     var req = new XMLHttpRequest();
     req.open("PUT", "/api/projects/" + project_id + "/tasks/" + task_id + "/");
     req.addEventListener("load", function () {
-        getProjects();
+        var task = JSON.parse(this.responseText);
+        let li = document.getElementById("task" + task_id);
+
+        let old_p = document.getElementById("line" + task_id);
+        old_p.parentNode.removeChild(old_p);
+
+        let content = document.createElement("p");
+        content.setAttribute("style", "display: inline; width: 90% margin: 0; text-decoration: none");
+        content.textContent = "| " + task.title;
+
+        let checkbox_div = document.createElement("div");
+        let checkbox = document.createElement("input");
+        checkbox.setAttribute("type", "checkbox");
+        if (task.completed === true) {
+            checkbox.setAttribute("checked", "true");
+            content.setAttribute("style", "display: inline; width: 90% margin: 0; text-decoration: line-through;");
+        }
+        checkbox.setAttribute("onClick", "setTaskState(" + project_id + ", " + task.id + ", " + task.completed + ")");
+        checkbox_div.setAttribute("style", "display: inline; margin-right: 1vh;");
+        checkbox_div.appendChild(checkbox);
+
+        li.setAttribute("id", "task" + task.id);
+        li.setAttribute("draggable", "true");
+        li.setAttribute("ondragstart", "drag(event, list" + project_id + ")");
+        li.setAttribute("ondrop", "ev.dataTransfer.dropEffect = 'none'");
+        li.setAttribute("style", "padding: 0; margin: 0; width: 70%; display: inline;");
+
+        let remove = document.createElement("a");
+        let remove_span = document.createElement("span");
+        remove_span.setAttribute("class", "glyphicon glyphicon-remove-sign");
+        remove.setAttribute("onClick", "removeTask(" + project_id + ", " + task.id + ") ");
+        remove.setAttribute("style", "display: inline; margin-left: 1vh;");
+        remove.appendChild(remove_span);
+
+        let line = document.createElement("p");
+        line.setAttribute("id", "line" + task.id);
+        line.appendChild(checkbox_div);
+        line.appendChild(content);
+        line.appendChild(remove);
+
+        li.appendChild(line);
+
     });
     new_state = !state;
     let json = JSON.stringify({
@@ -221,12 +294,11 @@ function setTaskState(project_id, task_id, state) {
 }
 
 function removeTask(project_id, task_id) {
-    var task = document.getElementById("task" + task_id);
-    task.parentNode.removeChild(task);
     var req = new XMLHttpRequest();
     req.open("DELETE", "/api/projects/" + project_id + "/tasks/" + task_id + "/");
     req.addEventListener("load", function () {
-        getProjects();
+        let li = document.getElementById("task" + task_id)
+        li.parentNode.removeChild(li);
     });
     req.send();
 }
@@ -237,8 +309,51 @@ function addTask(project_id) {
     var req = new XMLHttpRequest();
     req.open("POST", "/api/projects/" + project_id + "/tasks/");
     req.addEventListener("load", function () {
-        textField.textContent = "";
-        getProjects();
+
+        textField.value = "";
+
+        var task = JSON.parse(this.responseText);
+        let div = document.getElementById("project" + project_id);
+        let ul = div.childNodes[2].childNodes[0];
+
+        let content = document.createElement("p");
+        content.setAttribute("style", "display: inline; width: 90% margin: 0; text-decoration: none");
+        content.textContent = "| " + task.title;
+
+        let checkbox_div = document.createElement("div");
+        let checkbox = document.createElement("input");
+        checkbox.setAttribute("type", "checkbox");
+        if (task.completed === true) {
+            checkbox.setAttribute("checked", "true");
+            content.setAttribute("style", "display: inline; width: 90% margin: 0; text-decoration: line-through;");
+        }
+        checkbox.setAttribute("onClick", "setTaskState(" + project_id + ", " + task.id + ", " + task.completed + ")");
+        checkbox_div.setAttribute("style", "display: inline; margin-right: 1vh;");
+        checkbox_div.appendChild(checkbox);
+
+        let li = document.createElement("li");
+        li.setAttribute("id", "task" + task.id);
+        li.setAttribute("draggable", "true");
+        li.setAttribute("ondragstart", "drag(event, list" + project_id + ")");
+        li.setAttribute("ondrop", "ev.dataTransfer.dropEffect = 'none'");
+        li.setAttribute("style", "padding: 0; margin: 0; width: 70%; display: inline;");
+
+        let remove = document.createElement("a");
+        let remove_span = document.createElement("span");
+        remove_span.setAttribute("class", "glyphicon glyphicon-remove-sign");
+        remove.setAttribute("onClick", "removeTask(" + project_id + ", " + task.id + ") ");
+        remove.setAttribute("style", "display: inline; margin-left: 1vh;");
+        remove.appendChild(remove_span);
+
+        let line = document.createElement("p");
+        line.setAttribute("id", "line" + task.id);
+        line.appendChild(checkbox_div);
+        line.appendChild(content);
+        line.appendChild(remove);
+
+        li.appendChild(line);
+        ul.appendChild(li);
+
     });
     let json = JSON.stringify({
         title: title
@@ -247,6 +362,55 @@ function addTask(project_id) {
     req.send(json);
 }
 
+function addProject() {
+    var form = document.getElementById("project_form");
+    var title = form.title.value;
+
+    var req = new XMLHttpRequest();
+    req.open("POST", "/api/projects/");
+    let json = JSON.stringify({
+        title: title,
+    });
+    req.setRequestHeader("Content-type", "application/json");
+    req.send(json);
+
+    req.onload = function () {
+        if (req.status === 201) {
+            var project = JSON.parse(this.responseText);
+            var table = document.getElementById('projects_table');
+            let div = document.createElement("div");
+            div.setAttribute("id", "project" + project.id);
+            div.setAttribute("class", "w3-panel w3-card");
+            div.setAttribute("style", "padding-top: 2vh; margin-right: 4vh; width: 25%; display: inline-block;");
+            div.textContent = project.title + project.creation_date + " to end at: " + project.last_updated;
+
+            let button = document.createElement("button");
+            button.setAttribute("type", "button");
+            button.setAttribute("class", "btn btn-outline-danger");
+            button.setAttribute("onClick", "removeProject("+ project.id +")")
+            button.textContent = "Remove Project";
+
+            let button_div = document.createElement("div");
+            button_div.appendChild(button);
+
+            div.appendChild(button_div);
+
+            table.appendChild(div);
+            getTasks(project.id);
+            document.getElementById('project_add').style.display='none'
+        }
+    }
+}
+
+function removeProject(project_id) {
+    var req = new XMLHttpRequest();
+    req.open("DELETE", "/api/projects/" + project_id + "/");
+    req.addEventListener("load", function () {
+        let div = document.getElementById("project" + project_id)
+        div.parentNode.removeChild(div);
+    });
+    req.send();
+}
 
 getUser();
 getProjects();
