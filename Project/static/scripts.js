@@ -63,6 +63,7 @@ function loginUser() {
         if (req.status === 200) {
             getUser();
             getProjects();
+
             location.reload();
         }
     }
@@ -72,10 +73,21 @@ function getUser() {
     var req = new XMLHttpRequest();
     req.open("GET", "/api/user/");
     req.addEventListener("load", function () {
+        if (req.status == 401) {
+            return;
+        }
         var user = JSON.parse(this.responseText);
         if (user !== "") {
-            document.getElementById("div_login").innerHTML = "<ul class='nav navbar-nav navbar-right'><li><a href='#'><span class='glyphicon glyphicon-user'></span>" + user.username +
-                "</a></li> <li onclick='logout();'><a href='#'><span class='glyphicon glyphicon-log-in'></span> Logout</a></li></ul>";
+            document.getElementById("div_login").innerHTML = "<ul class='nav navbar-nav navbar-right'><li onClick= document.getElementById('uprofile').style.display='block'><a href='#'><span class='glyphicon glyphicon-user'></span>" + user.username +
+                "</a></li> <li onclick='logout('true');'><a href='#'><span class='glyphicon glyphicon-log-in'></span> Logout</a></li></ul>";
+            document.getElementById("btn_addProject").setAttribute("style", "margin-left: 80%; margin-right:5%; width: 15%");
+            var profile = document.getElementById("profile_form");
+            profile.name.setAttribute("placeholder", user.name);
+            profile.name.value = "";
+            profile.uname.setAttribute("placeholder", user.username);
+            profile.uname.value = "";
+            profile.email.setAttribute("placeholder", user.email);
+            profile.email.value = "";
         }
         else {
             document.getElementById("div_login").innerHTML = " <ul class='nav navbar-nav navbar-right'><li onclick='document.getElementById('signup').style.display='block''><a href='#'><span class='glyphicon glyphicon-user'></span> Sign Up</a></li><li onclick='document.getElementById('login').style.display='block''><a href='#'><spanclass='glyphicon glyphicon-log-in'></span> Login</a></li></ul>"
@@ -84,48 +96,45 @@ function getUser() {
     req.send();
 }
 
-function logout() {
+function logout(reload) {
     var req = new XMLHttpRequest();
     req.open("GET", "/api/user/logout/");
     req.send();
     req.addEventListener("load", function () {
-        location.reload();
+        if (reload == true) {
+            location.reload();
+        }
     });
 }
 
-// check this
-function updateUser(id) {
-    var form = document.getElementById("form");
+function updateUser() {
+    var form = document.getElementById("profile_form");
     var name = form.name.value;
-    var username = form.username.value;
+    var username = form.uname.value;
     var email = form.email.value;
-    var password = form.password.value;
-
-
+    console.log(username);
     var req = new XMLHttpRequest();
-    req.open("PUT", "/api/users/" + id + "/");
-    let json;
-    json = JSON.stringify({
+    req.open("PUT", "/api/user/");
+    let json = JSON.stringify({
         name: name,
         username: username,
         email: email,
-        password: password
     });
 
     req.addEventListener("load", function () {
-        getUsers();
+        location.reload();
     });
     req.setRequestHeader("Content-type", "application/json");
     req.send(json);
 
 }
 
-//check this
-function deleteUser(id) {
+function deleteUser() {
     var req = new XMLHttpRequest();
-    req.open("DELETE", "/api/users/" + id + "/");
+    logout(false);
+    req.open("DELETE", "/api/user/");
     req.addEventListener("load", function () {
-        getUsers();
+        location.reload();
     });
     req.send();
 }
@@ -134,6 +143,9 @@ function getProjects() {
     var req = new XMLHttpRequest();
     req.open("GET", "/api/projects/");
     req.addEventListener("load", function () {
+        if (req.status != 200) {
+            return;
+        }
         var projects = JSON.parse(this.responseText);
         var table = document.getElementById('projects_table');
         table.innerHTML = "";
@@ -147,7 +159,7 @@ function getProjects() {
             let button = document.createElement("button");
             button.setAttribute("type", "button");
             button.setAttribute("class", "btn btn-outline-danger");
-            button.setAttribute("onClick", "removeProject("+ projects[i].id +")")
+            button.setAttribute("onClick", "removeProject(" + projects[i].id + ")")
             button.textContent = "Remove Project";
 
             let button_div = document.createElement("div");
@@ -242,6 +254,9 @@ function setTaskState(project_id, task_id, state) {
     var req = new XMLHttpRequest();
     req.open("PUT", "/api/projects/" + project_id + "/tasks/" + task_id + "/");
     req.addEventListener("load", function () {
+        if (req.status != 200) {
+            return;
+        }
         var task = JSON.parse(this.responseText);
         let li = document.getElementById("task" + task_id);
 
@@ -297,6 +312,9 @@ function removeTask(project_id, task_id) {
     var req = new XMLHttpRequest();
     req.open("DELETE", "/api/projects/" + project_id + "/tasks/" + task_id + "/");
     req.addEventListener("load", function () {
+        if (req.status != 200) {
+            return;
+        }
         let li = document.getElementById("task" + task_id)
         li.parentNode.removeChild(li);
     });
@@ -309,6 +327,9 @@ function addTask(project_id) {
     var req = new XMLHttpRequest();
     req.open("POST", "/api/projects/" + project_id + "/tasks/");
     req.addEventListener("load", function () {
+        if (req.status != 201) {
+            return;
+        }
 
         textField.value = "";
 
@@ -362,6 +383,11 @@ function addTask(project_id) {
     req.send(json);
 }
 
+// todo
+function updateTask() {
+
+}
+
 function addProject() {
     var form = document.getElementById("project_form");
     var title = form.title.value;
@@ -387,7 +413,7 @@ function addProject() {
             let button = document.createElement("button");
             button.setAttribute("type", "button");
             button.setAttribute("class", "btn btn-outline-danger");
-            button.setAttribute("onClick", "removeProject("+ project.id +")")
+            button.setAttribute("onClick", "removeProject(" + project.id + ")")
             button.textContent = "Remove Project";
 
             let button_div = document.createElement("div");
@@ -397,7 +423,7 @@ function addProject() {
 
             table.appendChild(div);
             getTasks(project.id);
-            document.getElementById('project_add').style.display='none'
+            document.getElementById('project_add').style.display = 'none'
         }
     }
 }
@@ -406,10 +432,18 @@ function removeProject(project_id) {
     var req = new XMLHttpRequest();
     req.open("DELETE", "/api/projects/" + project_id + "/");
     req.addEventListener("load", function () {
+        if (req.status != 200) {
+            return;
+        }
         let div = document.getElementById("project" + project_id)
         div.parentNode.removeChild(div);
     });
     req.send();
+}
+
+// todo
+function updateProject() {
+    
 }
 
 getUser();

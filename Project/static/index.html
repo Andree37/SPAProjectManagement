@@ -29,6 +29,35 @@
       </div>
     </div>
   </nav>
+  <div id="uprofile" class="modal">
+
+    <form id="profile_form" class="modal-content animate">
+      <div class="imgcontainer">
+        <span onclick="document.getElementById('profile').style.display='none'" class="close"
+          title="Close Modal">&times;</span>
+        <img src="avatar.png" alt="Profile" class="avatar">
+      </div>
+
+      <div class="container_user">
+        <label for="name"><b>Name</b></label>
+        <input type="text" name="name">
+
+        <label for="uname"><b>Username</b></label>
+        <input type="text" name="uname">
+
+        <label for="email"><b>Email</b></label>
+        <input type="text" name="email">
+
+        <button type="button" onclick="updateUser();">Update</button>
+        <button type="button" onclick="deleteUser();">Remove account</button>
+      </div>
+
+      <div class="container_user" style="background-color:#f1f1f1">
+        <button type="button" onclick="document.getElementById('uprofile').style.display='none'"
+          class="cancelbtn">Cancel</button>
+      </div>
+    </form>
+  </div>
   <div id="login" class="modal">
 
     <form id="login_form" class="modal-content animate">
@@ -90,11 +119,9 @@
     </form>
   </div>
   <div id="project_add" class="modal">
-
     <form id="project_form" class="modal-content animate">
       <div class="imgcontainer">
-        <span onclick="document.getElementById('project_to_add').style.display='none'" class="close"
-          title="Close Modal">&times;</span>
+        <span onclick="document.getElementById('project_to_add').style.display='none'" class="close" title="Close Modal">&times;</span>
         <img src="img_avatar2.png" alt="Add Project" class="avatar">
       </div>
 
@@ -117,7 +144,8 @@
 
 
   <footer>
-    <button onclick="document.getElementById('project_add').style.display='block'" style="margin-left: 80%; margin-right:5%; width: 15%" type="button" class="btn btn-success">Add
+    <button id="btn_addProject" onclick="document.getElementById('project_add').style.display='block'" style="display: none; 
+    margin-left: 80%; margin-right:5%; width: 15%" type="button" class="btn btn-success">Add
       Project</button>
   </footer>
 
@@ -126,6 +154,7 @@
     var modal = document.getElementById('login');
     var modal2 = document.getElementById('signup');
     var modal3 = document.getElementById('project_add');
+    var modal4 = document.getElementById('uprofile');
 
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function (event) {
@@ -137,6 +166,9 @@
       }
       else if (event.target == modal3) {
         modal3.style.display = "none";
+      }
+      else if (event.target == modal4) {
+        modal4.style.display = "none";
       }
     }
 

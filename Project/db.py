@@ -12,7 +12,7 @@ from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Integer, String, Column, DateTime, ForeignKey, Boolean
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, backref
 
 Base = declarative_base()
 
@@ -45,7 +45,7 @@ class Project(Base):
     last_updated = Column(DateTime)
 
     user = Column(Integer, ForeignKey("users.id"), nullable=False)
-    user_ref = relationship('User', backref="Project")
+    user_ref = relationship('User', backref=backref("Project", cascade="all, delete-orphan"))
 
     def __init__(self, title="", user_id=0):
         self.title = title
@@ -68,7 +68,7 @@ class Task(Base):
     completed = Column(Boolean)
 
     project = Column(Integer, ForeignKey("projects.id"), nullable=False)
-    project_ref = relationship('Project', backref="Task")
+    project_ref = relationship('Project', backref=backref("Task", cascade="all, delete-orphan"))
 
     def __init__(self, title="", order=0, due_date=datetime.now(), completed=False, project_id=0):
         self.title = title
@@ -183,18 +183,19 @@ class DataBase:
         modified = False
 
         for k, v in data.items():
-            if k == 'name':
-                u.name = v
-                modified = True
-            elif k == 'username':
-                u.username = v
-                modified = True
-            elif k == 'email':
-                u.email = v
-                modified = True
-            elif k == 'password':
-                u.password = v
-                modified = True
+            if v != "":
+                if k == 'name':
+                    u.name = v
+                    modified = True
+                elif k == 'username':
+                    u.username = v
+                    modified = True
+                elif k == 'email':
+                    u.email = v
+                    modified = True
+                elif k == 'password':
+                    u.password = v
+                    modified = True
 
         self.db.session.commit()
 

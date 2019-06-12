@@ -39,16 +39,16 @@ def login():
             password = data['password']
     if data is None or username == "" or password == "":
         # change the 404
-        return make_response("Enter valid username and password", 404)
+        return make_response(jsonify(), 404)
 
     user = db.get_user_login(username, password)
     if user is None:
-        return make_response("This is not a valid login", 404)
+        return make_response(jsonify(), 404)
 
     # if user exists and the fields are verified, login
     login_user(user, remember=True)
 
-    return make_response("You are now logged in", 200)
+    return make_response(jsonify(), 200)
 
 
 @app.route('/api/user/register/', methods=['POST'])
@@ -65,7 +65,7 @@ def register():
 @login_required
 def logout():
     logout_user()
-    return make_response("You are now logged out", 200)
+    return make_response(jsonify(), 200)
 
 
 # check good
@@ -85,7 +85,6 @@ def single_user():
         data = request.get_json()
         updated_user, modified = db.update_user(user, data)
         if not modified:
-            # if not modified do we change to 404???????????
             return make_response(jsonify(), 404)
         return make_response(jsonify(updated_user), 200)
 
