@@ -4,7 +4,8 @@
 """
 from datetime import timedelta
 
-from sqlalchemy import exc
+from sqlalchemy import exc, create_engine
+from sqlalchemy.orm import sessionmaker
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 from flask_login import UserMixin
@@ -13,6 +14,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Integer, String, Column, DateTime, ForeignKey, Boolean
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, backref
+import hashlib
 
 Base = declarative_base()
 
@@ -25,12 +27,16 @@ class User(Base, UserMixin):
     username = Column(String, unique=True)
     email = Column(String, unique=True)
     password = Column(String)
+    authenticated = Column(Boolean)
+    auth_key = Column(String, unique=True)
 
-    def __init__(self, name="", username="", email="", password=""):
+    def __init__(self, name="", username="", email="", password="", authenticated=False, auth_key=""):
         self.name = name
         self.username = username
         self.email = email
         self.password = password
+        self.authenticated = authenticated
+        self.auth_key = auth_key
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -89,7 +95,6 @@ def as_dict(obj):
 
 
 class DataBase:
-
     def __init__(self, app):
         self.db = SQLAlchemy(app)
 
@@ -100,13 +105,19 @@ class DataBase:
         admin.add_view(ModelView(Task, self.db.session))
 
     def recreate_db(self):
-        meta = self.db.metadata
-        for table in reversed(meta.sorted_tables):
-            self.db.session.execute(table.delete())
-        self.db.session.commit()
 
-        ana = User('Ana', "anocas", "anocas@gmail.com", "123")
-        paulo = User('Paulo', "paulocas", "paulinho@yahoo.com", "123")
+        engine = create_engine('sqlite:///user.db')
+        Base.metadata.create_all(engine)
+
+        Base.metadata.bind = engine
+        DBSession = sessionmaker(bind=engine)
+        session = DBSession()
+
+        for tbl in reversed(Base.metadata.sorted_tables):
+            engine.execute(tbl.delete())
+
+        ana = User('Ana', "anocas", "anocas@gmail.com", "123", True, "b")
+        paulo = User('Paulo', "paulocas", "paulinho@yahoo.com", "123", True, "a")
 
         project1 = Project("first project", 1)
         project2 = Project("second project", 2)
@@ -114,14 +125,14 @@ class DataBase:
         task1 = Task("task1", 1, due_date, False, 1)
         task2 = Task("task2", 1, due_date, False, 2)
 
-        self.db.session.add(ana)
-        self.db.session.add(paulo)
-        self.db.session.add(project1)
-        self.db.session.add(project2)
-        self.db.session.add(task1)
-        self.db.session.add(task2)
+        session.add(ana)
+        session.add(paulo)
+        session.add(project1)
+        session.add(project2)
+        session.add(task1)
+        session.add(task2)
 
-        self.db.session.commit()
+        session.commit()
 
     def get_users(self):
         res = self.db.session.query(User).all()
@@ -139,12 +150,21 @@ class DataBase:
 
     def get_user_load(self, pk):
         res = self.db.session.query(User).get(pk)
-
         return res
 
     def get_user_login(self, username, password):
         res = self.db.session.query(User).filter_by(username=username, password=password).first()
         return res
+
+    def get_user_from_authkey(self, auth_key):
+        res = self.db.session.query(User).filter_by(auth_key=auth_key).first()
+        return res
+
+    def authenticate_user(self, user_pk):
+        user = self.db.session.query(User).get(user_pk)
+        user.authenticated = True
+
+        self.db.session.commit()
 
     def add_user(self, user):
         name = ""
@@ -166,7 +186,10 @@ class DataBase:
 
         if name == "" or username == "" or email == "" or password == "":
             return None
-        user_obj = User(name, username, email, password)
+        auth_key = hashlib.sha224(f'{username}'.encode()).hexdigest()
+
+        authenticated = False
+        user_obj = User(name, username, email, password, authenticated, auth_key)
 
         self.db.session.add(user_obj)
         try:

@@ -79,7 +79,7 @@ function getUser() {
         var user = JSON.parse(this.responseText);
         if (user !== "") {
             document.getElementById("div_login").innerHTML = "<ul class='nav navbar-nav navbar-right'><li onClick= document.getElementById('uprofile').style.display='block'><a href='#'><span class='glyphicon glyphicon-user'></span>" + user.username +
-                "</a></li> <li onclick='logout('true');'><a href='#'><span class='glyphicon glyphicon-log-in'></span> Logout</a></li></ul>";
+                "</a></li> <li onclick='logout(true);'><a href='#'><span class='glyphicon glyphicon-log-in'></span> Logout</a></li></ul>";
             document.getElementById("btn_addProject").setAttribute("style", "margin-left: 80%; margin-right:5%; width: 15%");
             var profile = document.getElementById("profile_form");
             profile.name.setAttribute("placeholder", user.name);

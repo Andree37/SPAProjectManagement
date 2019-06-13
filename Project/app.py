@@ -4,6 +4,7 @@
 """
 from flask import Flask, request, jsonify, make_response
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
+from flask_mail import Mail, Message
 from db import DataBase
 
 app = Flask(__name__, static_url_path='/static')
@@ -11,10 +12,25 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///user.db'
 app.config['SECRET_KEY'] = "\xe7utGZI\xf6'\x95\xbe\xd1\x84\xac\xbb\xf1n"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
+app.config['MAIL_USERNAME'] = 'scp405testsubject@gmail.com'
+app.config['MAIL_PASSWORD'] = 'thesenderone201'
+app.config['MAIL_DEFAULT_SENDER'] = 'scp405testsubject@gmail.com'
+
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+app.config['MAIL_DEBUG'] = app.debug
+app.config['MAIL_MAX_EMAILS'] = None
+app.config['MAIL_SUPPRESS_SEND'] = app.testing
+app.config['MAIL_ASCII_ATTACHMENTS'] = False
+
 db = DataBase(app)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
+
+mail = Mail(app)
 
 
 @app.route('/')
@@ -32,11 +48,13 @@ def login():
     data = request.get_json()
     username = ""
     password = ""
+    authenticated = False
     if data is not None:
         if 'username' in data:
             username = data['username']
         if 'password' in data:
             password = data['password']
+
     if data is None or username == "" or password == "":
         # change the 404
         return make_response(jsonify(), 404)
@@ -45,9 +63,25 @@ def login():
     if user is None:
         return make_response(jsonify(), 404)
 
+    authenticated = user.authenticated
+
+    # Check for validation of the sent email
+    if not authenticated:
+        return make_response(jsonify(), 401)
+
     # if user exists and the fields are verified, login
     login_user(user, remember=True)
 
+    return make_response(jsonify(), 200)
+
+
+@app.route('/api/authenticate/<string:key>/', methods=['GET'])
+def authenticate(key):
+    user = db.get_user_from_authkey(key)
+    if user is None:
+        return make_response(jsonify(), 401)
+
+    db.authenticate_user(user.id)
     return make_response(jsonify(), 200)
 
 
@@ -57,6 +91,13 @@ def register():
     user = db.add_user(user_json)
     if user is None:
         return make_response(jsonify(), 409)
+
+    # Send user the email with the verification
+    # For testing purposes, the emails are always sent to this throwaway account
+    msg = Message("Authenticate here",
+                  recipients=["scp404testsubject@gmail.com"])
+    msg.body = f"http://localhost:8000/api/authenticate/{user['auth_key']}/"
+    mail.send(msg)
 
     return make_response(jsonify(user), 201)
 
