@@ -3,9 +3,12 @@
 
 """
 from flask import Flask, request, jsonify, make_response
+from flask_basicauth import BasicAuth
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from flask_mail import Mail, Message
-from db import DataBase
+from db import DataBase, User, Project, Task
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
 
 app = Flask(__name__, static_url_path='/static')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///user.db'
@@ -25,6 +28,9 @@ app.config['MAIL_MAX_EMAILS'] = None
 app.config['MAIL_SUPPRESS_SEND'] = app.testing
 app.config['MAIL_ASCII_ATTACHMENTS'] = False
 
+app.config['BASIC_AUTH_USERNAME'] = 'admin'
+app.config['BASIC_AUTH_PASSWORD'] = 'admin'
+
 db = DataBase(app)
 
 login_manager = LoginManager()
@@ -32,10 +38,30 @@ login_manager.init_app(app)
 
 mail = Mail(app)
 
+basic_auth = BasicAuth(app)
+
+
+class MyModelView(ModelView):
+    def is_accessible(self):
+        return current_user.username == "dani"
+
+
+# admin for all the tables
+admin = Admin(app)
+admin.add_view(MyModelView(User, db.db.session))
+admin.add_view(MyModelView(Project, db.db.session))
+admin.add_view(MyModelView(Task, db.db.session))
+
 
 @app.route('/')
 def index():
     return app.send_static_file('index.html')
+
+
+@app.route('/admin/')
+@basic_auth.required
+def admin():
+    return ""
 
 
 @login_manager.user_loader

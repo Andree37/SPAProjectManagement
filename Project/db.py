@@ -6,8 +6,6 @@ from datetime import timedelta
 
 from sqlalchemy import exc, create_engine
 from sqlalchemy.orm import sessionmaker
-from flask_admin import Admin
-from flask_admin.contrib.sqla import ModelView
 from flask_login import UserMixin
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
@@ -97,12 +95,6 @@ def as_dict(obj):
 class DataBase:
     def __init__(self, app):
         self.db = SQLAlchemy(app)
-
-        # admin for all the tables
-        admin = Admin(app)
-        admin.add_view(ModelView(User, self.db.session))
-        admin.add_view(ModelView(Project, self.db.session))
-        admin.add_view(ModelView(Task, self.db.session))
 
     def recreate_db(self):
 
