@@ -144,7 +144,7 @@ def single_user():
     elif request.method == 'PUT':
         data = request.get_json()
         updated_user, modified = db.update_user(user, data)
-        if not modified:
+        if not modified or updated_user is None:
             return make_response(jsonify(), 404)
         return make_response(jsonify(updated_user), 200)
 
@@ -163,6 +163,9 @@ def all_projects():
     elif request.method == 'POST':
         project_json = request.get_json()
         project = db.add_project(project_json, user.id)
+
+        if project is None:
+            return make_response(jsonify(), 404)
 
         return make_response(jsonify(project), 201)
 
@@ -183,7 +186,9 @@ def single_project(pk):
         return make_response(jsonify(), 200)
     elif request.method == 'PUT':
         data = request.get_json()
-        updated_project = db.update_project(project, user.id, data)
+        modified, updated_project = db.update_project(project, user.id, data)
+        if not modified or updated_project is None:
+            return make_response(jsonify(), 404)
         return make_response(jsonify(updated_project), 200)
 
 

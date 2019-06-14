@@ -200,6 +200,9 @@ class DataBase:
         u = self.db.session.query(User).get(user['id'])
         modified = False
 
+        if data is None:
+            return None, modified
+
         for k, v in data.items():
             if v != "":
                 if k == 'name':
@@ -248,7 +251,13 @@ class DataBase:
         return res
 
     def add_project(self, project, user_id):
-        project_obj = Project(project['title'], user_id)
+        title = ""
+        if "title" in project:
+            title = project["title"]
+
+        if title == "":
+            return None
+        project_obj = Project(title, user_id)
 
         self.db.session.add(project_obj)
         self.db.session.commit()
@@ -258,17 +267,22 @@ class DataBase:
         return dic
 
     def update_project(self, project, user_id, data):
+        modified = False
         p = self.db.session.query(Project).get(project['id'])
+
+        if data is None:
+            return False, None
 
         for k, v in data.items():
             if k == 'title':
                 p.title = v
+                modified = True
         p.last_updated = datetime.now()
 
         self.db.session.commit()
 
         project_id = p.id
-        return self.get_project(project_id, user_id)
+        return modified, self.get_project(project_id, user_id)
 
     def remove_project(self, project):
         p = self.db.session.query(Project).get(project['id'])
