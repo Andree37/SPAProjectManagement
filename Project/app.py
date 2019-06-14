@@ -107,8 +107,11 @@ def authenticate(key):
     if user is None:
         return make_response(jsonify(), 401)
 
-    db.authenticate_user(user.id)
-    return make_response(jsonify(), 200)
+    authenticated = db.authenticate_user(user.id)
+    if authenticated:
+        return make_response(jsonify(), 200)
+
+    return make_response(jsonify(), 404)
 
 
 @app.route('/api/user/register/', methods=['POST'])

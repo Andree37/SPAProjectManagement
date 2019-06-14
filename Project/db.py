@@ -154,9 +154,12 @@ class DataBase:
 
     def authenticate_user(self, user_pk):
         user = self.db.session.query(User).get(user_pk)
+        if user is None:
+            return False
         user.authenticated = True
-
         self.db.session.commit()
+
+        return True
 
     def add_user(self, user):
         name = ""
