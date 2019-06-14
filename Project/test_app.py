@@ -11,7 +11,8 @@ class BasicTests(unittest.TestCase):
 
     def create_test_user(self):
         create_url = base_url + 'api/user/register/'
-        s.post(create_url, json={'name': 'test', 'username': 'user_test', 'email': 'test@email.com', 'password': '123'})
+        response = s.post(create_url, json={'name': 'test', 'username': 'user_test', 'email': 'test@email.com', 'password': '123'})
+        s.get(base_url + 'api/authenticate/c86627a2ecb27e0af08ec531423347005ea04dc7c837cad69409358f/')
 
     def login_test_user(self):
         login_url = base_url + 'api/user/login/'
@@ -34,6 +35,7 @@ class BasicTests(unittest.TestCase):
         response = s.post(test_url,
                           json={'name': 'test', 'username': 'user_test', 'email': 'test@email.com', 'password': '123'})
         self.assertEqual(response.status_code, 201)
+        s.get(base_url + 'api/authenticate/c86627a2ecb27e0af08ec531423347005ea04dc7c837cad69409358f/')
         # Delete the new data
         self.delete_test_user()
 
