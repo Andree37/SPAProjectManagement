@@ -13,8 +13,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="260">
-              <caret line="114" lean-forward="true" selection-start-line="114" selection-end-line="114" />
+            <state relative-caret-position="86">
+              <caret line="53" selection-start-line="53" selection-end-line="53" />
               <folding>
                 <element signature="e#33#89#0" expanded="true" />
               </folding>
@@ -25,7 +25,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/db.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="314">
+            <state relative-caret-position="2646">
               <caret line="157" column="24" selection-start-line="157" selection-start-column="24" selection-end-line="157" selection-end-column="24" />
               <folding>
                 <element signature="e#49#79#0" expanded="true" />
@@ -92,6 +92,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -103,7 +104,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -127,7 +127,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.app">
+  <component name="RunManager" selected="Python tests.Unittests in test_app.py">
     <configuration name="app" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Project" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -207,9 +207,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python tests.Unittests in test_app.py" />
         <item itemvalue="Python.app" />
         <item itemvalue="Python tests.Unittests for test_app.BasicTests.test_register_ok" />
-        <item itemvalue="Python tests.Unittests in test_app.py" />
         <item itemvalue="Python tests.Unittests for test_app.BasicTests.test_single_user" />
         <item itemvalue="Python tests.Unittests for test_app.BasicTests.test_main" />
       </list>
@@ -229,9 +229,6 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="Unittests_in_test_app_py - 2019.06.11 at 10h 57m 32s.xml">
-      <configuration name="Unittests in test_app.py" configurationId="tests" />
-    </history-entry>
     <history-entry file="Unittests_in_test_app_py - 2019.06.11 at 10h 58m 43s.xml">
       <configuration name="Unittests in test_app.py" configurationId="tests" />
     </history-entry>
@@ -259,6 +256,9 @@
     <history-entry file="Unittests_for_test_app_BasicTests_test_register_ok - 2019.06.11 at 11h 38m 08s.xml">
       <configuration name="Unittests for test_app.BasicTests.test_register_ok" configurationId="tests" />
     </history-entry>
+    <history-entry file="Unittests_in_test_app_py - 2019.06.14 at 14h 47m 27s.xml">
+      <configuration name="Unittests in test_app.py" configurationId="tests" />
+    </history-entry>
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -271,7 +271,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.496788" visible="true" weight="0.14729194" />
       <window_info id="Structure" order="1" sideWeight="0.503212" side_tool="true" weight="0.30738255" />
@@ -399,16 +398,19 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test_app.py">
+    <entry file="file://$PROJECT_DIR$/app.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1656">
-          <caret line="93" selection-start-line="93" selection-end-line="93" />
+        <state relative-caret-position="86">
+          <caret line="53" selection-start-line="53" selection-end-line="53" />
+          <folding>
+            <element signature="e#33#89#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/db.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="314">
+        <state relative-caret-position="2646">
           <caret line="157" column="24" selection-start-line="157" selection-start-column="24" selection-end-line="157" selection-end-column="24" />
           <folding>
             <element signature="e#49#79#0" expanded="true" />
@@ -416,13 +418,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app.py">
+    <entry file="file://$PROJECT_DIR$/test_app.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="114" lean-forward="true" selection-start-line="114" selection-end-line="114" />
-          <folding>
-            <element signature="e#33#89#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="1656">
+          <caret line="93" selection-start-line="93" selection-end-line="93" />
         </state>
       </provider>
     </entry>
