@@ -3,7 +3,7 @@
 
 """
 from flask import Flask, request, jsonify, make_response
-from flask_login import LoginManager, login_user, login_required, logout_user, current_user
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user, AnonymousUserMixin
 from flask_mail import Mail, Message
 from db import DataBase, User, Project, Task
 from flask_admin import Admin
@@ -37,6 +37,7 @@ mail = Mail(app)
 
 
 class MyModelView(ModelView):
+    @login_required
     def is_accessible(self):
         return current_user.username == "dani"
 
