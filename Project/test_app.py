@@ -3,7 +3,7 @@ import requests
 from datetime import timedelta, datetime
 # To test this, app.py must be running in a different thread
 
-base_url = "http://localhost:8000/"
+base_url = 'http://darfkman.pythonanywhere.com/' # "http://localhost:8000/"
 s = requests.Session()
 
 
@@ -76,7 +76,7 @@ class BasicTests(unittest.TestCase):
     # Test non existing page
     def test_non_existing_page(self):
         response = s.get(base_url+'/12j312h3h')
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 404)
 
     # Registration Tests
     # Test regular registration
@@ -240,7 +240,7 @@ class BasicTests(unittest.TestCase):
         response = s.delete(test_url)
         self.assertEqual(response.status_code, 200)
         # Login with non existing user
-        response = s.post('http://localhost:8000/api/user/login/', json={'username': 'user_test', 'password': '123'})
+        response = s.post(base_url+'/api/user/login/', json={'username': 'user_test', 'password': '123'})
         self.assertEqual(response.status_code, 404)
 
     # All Projects Tests
@@ -294,7 +294,7 @@ class BasicTests(unittest.TestCase):
         self.create_test_user()
         self.login_test_user()
         response = s.post(test_url, json={'title': 'Test Project'})
-        pk_id = ((response.content.decode()).split('"id": ')[1]).split(',')[0]
+        pk_id = ((response.content.decode()).split('"id":')[1]).split(',')[0]
         response = s.get(test_url + pk_id + '/')
         self.assertEqual(response.status_code, 200)
         self.delete_test_user()
@@ -321,7 +321,7 @@ class BasicTests(unittest.TestCase):
         self.create_test_user()
         self.login_test_user()
         response = s.post(test_url, json={'title': 'Test Project'})
-        pk_id = ((response.content.decode()).split('"id": ')[1]).split(',')[0]
+        pk_id = ((response.content.decode()).split('"id":')[1]).split(',')[0]
         response = s.delete(test_url + pk_id + '/')
         self.assertEqual(response.status_code, 200)
         self.delete_test_user()
@@ -341,7 +341,7 @@ class BasicTests(unittest.TestCase):
         self.create_test_user()
         self.login_test_user()
         response = s.post(test_url, json={'title': 'Test Project'})
-        pk_id = ((response.content.decode()).split('"id": ')[1]).split(',')[0]
+        pk_id = ((response.content.decode()).split('"id":')[1]).split(',')[0]
         response = s.put(test_url + pk_id + '/', json={'title': 'Test Project'})
         self.assertEqual(response.status_code, 200)
         self.delete_test_user()
@@ -368,7 +368,7 @@ class BasicTests(unittest.TestCase):
         self.create_test_user()
         self.login_test_user()
         response = s.post(test_url, json={'title': 'Test Project'})
-        pk_id = ((response.content.decode()).split('"id": ')[1]).split(',')[0]
+        pk_id = ((response.content.decode()).split('"id":')[1]).split(',')[0]
         response = s.put(test_url + pk_id + '/', json={'bananas': '2'})
         self.assertEqual(response.status_code, 404)
         self.delete_test_user()
@@ -379,7 +379,7 @@ class BasicTests(unittest.TestCase):
         self.create_test_user()
         self.login_test_user()
         response = s.post(test_url, json={'title': 'Test Project'})
-        pk_id = ((response.content.decode()).split('"id": ')[1]).split(',')[0]
+        pk_id = ((response.content.decode()).split('"id":')[1]).split(',')[0]
         response = s.put(test_url + pk_id + '/', None)
         self.assertEqual(response.status_code, 404)
         self.delete_test_user()
@@ -391,7 +391,7 @@ class BasicTests(unittest.TestCase):
         self.create_test_user()
         self.login_test_user()
         response = s.post(test_url, json={'title': 'Test Project'})
-        pk_id = ((response.content.decode()).split('"id": ')[1]).split(',')[0]
+        pk_id = ((response.content.decode()).split('"id":')[1]).split(',')[0]
         test_url += pk_id + '/tasks/'
         s.post(test_url, json={'title': 'Test Task'})
         response = s.get(test_url)
@@ -420,7 +420,7 @@ class BasicTests(unittest.TestCase):
         self.create_test_user()
         self.login_test_user()
         response = s.post(test_url, json={'title': 'Test Project'})
-        pk_id = ((response.content.decode()).split('"id": ')[1]).split(',')[0]
+        pk_id = ((response.content.decode()).split('"id":')[1]).split(',')[0]
         test_url += pk_id + '/tasks/'
         response = s.post(test_url, json={'title': 'Test Task'})
         self.assertEqual(response.status_code, 201)
@@ -442,7 +442,7 @@ class BasicTests(unittest.TestCase):
         self.create_test_user()
         self.login_test_user()
         response = s.post(test_url, json={'title': 'Test Project'})
-        pk_id = ((response.content.decode()).split('"id": ')[1]).split(',')[0]
+        pk_id = ((response.content.decode()).split('"id":')[1]).split(',')[0]
         test_url += pk_id + '/tasks/'
         response = s.post(test_url, json={})
         self.assertEqual(response.status_code, 404)
@@ -454,7 +454,7 @@ class BasicTests(unittest.TestCase):
         self.create_test_user()
         self.login_test_user()
         response = s.post(test_url, json={'title': 'Test Project'})
-        pk_id = ((response.content.decode()).split('"id": ')[1]).split(',')[0]
+        pk_id = ((response.content.decode()).split('"id":')[1]).split(',')[0]
         test_url += pk_id + '/tasks/'
         response = s.post(test_url, json={'bananas': '2'})
         self.assertEqual(response.status_code, 404)
@@ -467,10 +467,12 @@ class BasicTests(unittest.TestCase):
         self.create_test_user()
         self.login_test_user()
         response = s.post(test_url, json={'title': 'Test Project'})
-        pk_id = ((response.content.decode()).split('"id": ')[1]).split(',')[0]
+        print(response.content)
+        pk_id = ((response.content.decode()).split('"id":')[1]).split(',')[0]
+
         test_url += pk_id + '/tasks/'
         response = s.post(test_url, json={'title': 'Test Task'})
-        task_id = ((response.content.decode()).split('"id": ')[1]).split(',')[0]
+        task_id = ((response.content.decode()).split('"id":')[1]).split(',')[0]
         test_url += task_id + '/'
         response = s.get(test_url)
         self.assertEqual(response.status_code, 200)
@@ -498,10 +500,10 @@ class BasicTests(unittest.TestCase):
         self.create_test_user()
         self.login_test_user()
         response = s.post(test_url, json={'title': 'Test Project'})
-        pk_id = ((response.content.decode()).split('"id": ')[1]).split(',')[0]
+        pk_id = ((response.content.decode()).split('"id":')[1]).split(',')[0]
         test_url += pk_id + '/tasks/'
         response = s.post(test_url, json={'title': 'Test Task'})
-        task_id = ((response.content.decode()).split('"id": ')[1]).split(',')[0]
+        task_id = ((response.content.decode()).split('"id":')[1]).split(',')[0]
         test_url += task_id + '/'
         response = s.delete(test_url)
         self.assertEqual(response.status_code, 200)
@@ -522,10 +524,10 @@ class BasicTests(unittest.TestCase):
         self.create_test_user()
         self.login_test_user()
         response = s.post(test_url, json={'title': 'Test Project'})
-        pk_id = ((response.content.decode()).split('"id": ')[1]).split(',')[0]
+        pk_id = ((response.content.decode()).split('"id":')[1]).split(',')[0]
         test_url += pk_id + '/tasks/'
         response = s.post(test_url, json={'title': 'Test Task'})
-        task_id = ((response.content.decode()).split('"id": ')[1]).split(',')[0]
+        task_id = ((response.content.decode()).split('"id":')[1]).split(',')[0]
         test_url += task_id + '/'
         response = s.put(test_url, json={'completed': True})
         self.assertEqual(response.status_code, 200)
@@ -553,10 +555,10 @@ class BasicTests(unittest.TestCase):
         self.create_test_user()
         self.login_test_user()
         response = s.post(test_url, json={'title': 'Test Project'})
-        pk_id = ((response.content.decode()).split('"id": ')[1]).split(',')[0]
+        pk_id = ((response.content.decode()).split('"id":')[1]).split(',')[0]
         test_url += pk_id + '/tasks/'
         response = s.post(test_url, json={'title': 'Test Task'})
-        task_id = ((response.content.decode()).split('"id": ')[1]).split(',')[0]
+        task_id = ((response.content.decode()).split('"id":')[1]).split(',')[0]
         test_url += task_id + '/'
         response = s.put(test_url, json={'bananas': '2'})
         self.assertEqual(response.status_code, 404)
@@ -568,10 +570,10 @@ class BasicTests(unittest.TestCase):
         self.create_test_user()
         self.login_test_user()
         response = s.post(test_url, json={'title': 'Test Project'})
-        pk_id = ((response.content.decode()).split('"id": ')[1]).split(',')[0]
+        pk_id = ((response.content.decode()).split('"id":')[1]).split(',')[0]
         test_url += pk_id + '/tasks/'
         response = s.post(test_url, json={'title': 'Test Task'})
-        task_id = ((response.content.decode()).split('"id": ')[1]).split(',')[0]
+        task_id = ((response.content.decode()).split('"id":')[1]).split(',')[0]
         test_url += task_id + '/'
         response = s.put(test_url, None)
         self.assertEqual(response.status_code, 404)
