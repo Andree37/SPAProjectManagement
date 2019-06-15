@@ -22,7 +22,22 @@ function signupUser() {
     req.setRequestHeader("Content-type", "application/json");
     req.send(json);
     req.addEventListener("load", function () {
-        login(username, password);
+        div = document.createElement("div");
+        div.setAttribute("class", "alert alert-success");
+        a = document.createElement("a");
+        a.setAttribute("href", "#");
+        a.setAttribute("class", "close");
+        a.setAttribute("data-dismess", "alert");
+        a.setAttribute("aria-label", "close");
+        a.innerHTML = ""
+        strong = document.createElement("strong");
+        strong.textContent = "Check your email for the confirmation code!";
+
+        div.appendChild(a);
+        div.appendChild(strong);
+        modal = document.getElementById("signup");
+
+        modal.appendChild(div);
     });
 }
 
@@ -66,6 +81,24 @@ function loginUser() {
 
             location.reload();
         }
+        if (req.status === 404) {
+            div = document.createElement("div");
+            div.setAttribute("class", "alert alert-warning alert-dismissible fade in");
+            a = document.createElement("a");
+            a.setAttribute("href", "#");
+            a.setAttribute("class", "close");
+            a.setAttribute("data-dismess", "alert");
+            a.setAttribute("aria-label", "close");
+            a.innerHTML = ""
+            strong = document.createElement("strong");
+            strong.textContent = "Invalid Login";
+
+            div.appendChild(a);
+            div.appendChild(strong);
+            modal = document.getElementById("login");
+
+            modal.appendChild(div);
+        }
     }
 }
 
@@ -84,8 +117,8 @@ function getUser() {
             var profile = document.getElementById("profile_form");
             profile.name.setAttribute("placeholder", user.name);
             profile.name.value = "";
-            profile.uname.setAttribute("placeholder", user.username);
-            profile.uname.value = "";
+            profile.uname.setAttribute("readonly", "true");
+            profile.uname.value = user.username;
             profile.email.setAttribute("placeholder", user.email);
             profile.email.value = "";
         }
@@ -154,16 +187,25 @@ function getProjects() {
             div.setAttribute("id", "project" + projects[i].id);
             div.setAttribute("class", "w3-panel w3-card");
             div.setAttribute("style", "padding-top: 2vh; margin-right: 4vh; width: 25%; display: inline-block;");
-            div.textContent = projects[i].title + projects[i].creation_date + " to end at: " + projects[i].last_updated;
+            div.textContent = projects[i].title;
 
             let button = document.createElement("button");
             button.setAttribute("type", "button");
             button.setAttribute("class", "btn btn-outline-danger");
+            button.setAttribute("style", "width: 50%;");
             button.setAttribute("onClick", "removeProject(" + projects[i].id + ")")
             button.textContent = "Remove Project";
 
+            let edit = document.createElement("button");
+            edit.setAttribute("type", "button");
+            edit.setAttribute("class", "btn btn-outline-danger");
+            edit.setAttribute("style", "width: 50%;");
+            edit.setAttribute("onClick", "updateProject(" + projects[i].id + ")")
+            edit.textContent = "Update Project";
+
             let button_div = document.createElement("div");
             button_div.appendChild(button);
+            button_div.appendChild(edit);
 
             div.appendChild(button_div);
             table.appendChild(div);
@@ -217,11 +259,19 @@ function getTasks(project_id) {
             remove.setAttribute("style", "display: inline; margin-left: 1vh;");
             remove.appendChild(remove_span);
 
+            let edit = document.createElement("a");
+            let edit_span = document.createElement("span");
+            edit_span.setAttribute("class", "glyphicon glyphicon-pencil");
+            edit.setAttribute("onClick", "updateTask(" + project_id + ", " + tasks[j].id + ") ");
+            edit.setAttribute("style", "display: inline; margin-left: 1vh;");
+            edit.appendChild(edit_span);
+
             let line = document.createElement("p");
             line.setAttribute("id", "line" + tasks[j].id);
             line.appendChild(checkbox_div);
             line.appendChild(content);
             line.appendChild(remove);
+            line.appendChild(edit);
 
             li.appendChild(line);
             ul.appendChild(li);
@@ -291,11 +341,19 @@ function setTaskState(project_id, task_id, state) {
         remove.setAttribute("style", "display: inline; margin-left: 1vh;");
         remove.appendChild(remove_span);
 
+        let edit = document.createElement("a");
+        let edit_span = document.createElement("span");
+        edit_span.setAttribute("class", "glyphicon glyphicon-pencil");
+        edit.setAttribute("onClick", "updateTask(" + project_id + ", " + task.id + ") ");
+        edit.setAttribute("style", "display: inline; margin-left: 1vh;");
+        edit.appendChild(edit_span);
+
         let line = document.createElement("p");
         line.setAttribute("id", "line" + task.id);
         line.appendChild(checkbox_div);
         line.appendChild(content);
         line.appendChild(remove);
+        line.appendChild(edit);
 
         li.appendChild(line);
 
@@ -366,11 +424,19 @@ function addTask(project_id) {
         remove.setAttribute("style", "display: inline; margin-left: 1vh;");
         remove.appendChild(remove_span);
 
+        let edit = document.createElement("a");
+        let edit_span = document.createElement("span");
+        edit_span.setAttribute("class", "glyphicon glyphicon-pencil");
+        edit.setAttribute("onClick", "updateTask(" + project_id + ", " + task.id + ") ");
+        edit.setAttribute("style", "display: inline; margin-left: 1vh;");
+        edit.appendChild(edit_span);
+
         let line = document.createElement("p");
         line.setAttribute("id", "line" + task.id);
         line.appendChild(checkbox_div);
         line.appendChild(content);
         line.appendChild(remove);
+        line.appendChild(edit);
 
         li.appendChild(line);
         ul.appendChild(li);
@@ -384,8 +450,27 @@ function addTask(project_id) {
 }
 
 // todo
-function updateTask() {
+function updateTask(project_id, task_id) {
+    var task = document.getElementById("line" + task_id);
+    // need to get the title from somewhereeeeeeasdasdasdasd
+    let new_title = "test";
+    var req = new XMLHttpRequest();
+    req.open("PUT", "/api/projects/" + project_id + "/tasks/" + task_id + "/");
+    req.addEventListener("load", function () {
+        if (req.status != 200) {
+            return;
+        }
+        let content = document.createElement("p");
+        content.setAttribute("style", "display: inline; width: 90% margin: 0; text-decoration: none");
+        content.textContent = "/ " + new_title;
 
+        task.childNodes[1].replaceWith(content);
+    });
+    let json = JSON.stringify({
+        title: new_title
+    });
+    req.setRequestHeader("Content-type", "application/json");
+    req.send(json);
 }
 
 function addProject() {
@@ -408,7 +493,7 @@ function addProject() {
             div.setAttribute("id", "project" + project.id);
             div.setAttribute("class", "w3-panel w3-card");
             div.setAttribute("style", "padding-top: 2vh; margin-right: 4vh; width: 25%; display: inline-block;");
-            div.textContent = project.title + project.creation_date + " to end at: " + project.last_updated;
+            div.textContent = project.title;
 
             let button = document.createElement("button");
             button.setAttribute("type", "button");
@@ -416,8 +501,16 @@ function addProject() {
             button.setAttribute("onClick", "removeProject(" + project.id + ")")
             button.textContent = "Remove Project";
 
+            let edit = document.createElement("button");
+            edit.setAttribute("type", "button");
+            edit.setAttribute("class", "btn btn-outline-danger");
+            edit.setAttribute("style", "width: 50%;");
+            edit.setAttribute("onClick", "updateProject(" + project.id + ")")
+            edit.textContent = "Update Project";
+
             let button_div = document.createElement("div");
             button_div.appendChild(button);
+            button_div.appendChild(edit);
 
             div.appendChild(button_div);
 
@@ -442,8 +535,25 @@ function removeProject(project_id) {
 }
 
 // todo
-function updateProject() {
-    
+function updateProject(project_id) {
+    var project = document.getElementById("project" + project_id);
+    // need to get the title from somewhereeeeeeasdasdasdasd
+    let new_title = "test";
+    var req = new XMLHttpRequest();
+    req.open("PUT", "/api/projects/" + project_id + "/");
+    req.addEventListener("load", function () {
+        if (req.status != 200) {
+            return;
+        }
+        div = project.childNodes[0];
+        div.textContent = new_title;
+
+    });
+    let json = JSON.stringify({
+        title: new_title
+    });
+    req.setRequestHeader("Content-type", "application/json");
+    req.send(json);
 }
 
 getUser();
