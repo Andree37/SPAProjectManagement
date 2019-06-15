@@ -480,7 +480,7 @@ class BasicTests(unittest.TestCase):
     def test_single_task_get_unauthorized(self):
         test_url = base_url + 'api/projects/'
         self.logout_test_user()
-        response = s.get(test_url + '1/task/1/')
+        response = s.get(test_url + '1/tasks/1/')
         self.assertEqual(response.status_code, 401)
 
     # Test single_task get forbidden project
@@ -488,7 +488,7 @@ class BasicTests(unittest.TestCase):
         test_url = base_url + 'api/projects/'
         self.create_test_user()
         self.login_test_user()
-        response = s.get(test_url + '1/task/1/')
+        response = s.get(test_url + '1/tasks/1/')
         self.assertEqual(response.status_code, 404)
         self.delete_test_user()
 

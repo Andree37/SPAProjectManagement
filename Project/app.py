@@ -6,7 +6,7 @@ from flask import Flask, request, jsonify, make_response
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user, AnonymousUserMixin
 from flask_mail import Mail, Message
 from db import DataBase, User, Project, Task
-from flask_admin import Admin
+from flask_admin import Admin, AdminIndexView
 from flask_admin.contrib.sqla import ModelView
 
 app = Flask(__name__, static_url_path='/static')
@@ -27,7 +27,6 @@ app.config['MAIL_MAX_EMAILS'] = None
 app.config['MAIL_SUPPRESS_SEND'] = app.testing
 app.config['MAIL_ASCII_ATTACHMENTS'] = False
 
-
 db = DataBase(app)
 
 login_manager = LoginManager()
@@ -42,8 +41,14 @@ class MyModelView(ModelView):
         return current_user.username == "dani"
 
 
+class MyAdminIndexView(AdminIndexView):
+    @login_required
+    def is_accessible(self):
+        return current_user.username == "dani"
+
+
 # admin for all the tables
-admin = Admin(app)
+admin = Admin(app, index_view=MyAdminIndexView())
 admin.add_view(MyModelView(User, db.db.session))
 admin.add_view(MyModelView(Project, db.db.session))
 admin.add_view(MyModelView(Task, db.db.session))
@@ -199,6 +204,8 @@ def single_project(pk):
 def all_tasks(project_pk):
     user = current_user
     project = db.get_project_load(project_pk, user.id)
+    if project is None:
+        return make_response(jsonify(), 404)
     if request.method == 'GET':
         tasks = db.get_tasks(project.id)
         if len(tasks) == 0:
@@ -208,7 +215,8 @@ def all_tasks(project_pk):
     elif request.method == 'POST':
         task_json = request.get_json()
         task = db.add_task(task_json, project_pk)
-
+        if task is None:
+            return make_response(jsonify(), 404)
         return make_response(jsonify(task), 201)
 
 
@@ -218,6 +226,8 @@ def all_tasks(project_pk):
 def single_task(project_pk, pk):
     user = current_user
     project = db.get_project_load(project_pk, user.id)
+    if project is None:
+        return make_response(jsonify(), 404)
     task = db.get_task(project.id, pk)
     if task is None:
         return make_response(jsonify(), 404)
@@ -229,7 +239,9 @@ def single_task(project_pk, pk):
         return make_response(jsonify(), 200)
     elif request.method == 'PUT':
         data = request.get_json()
-        updated_task = db.update_task(project_pk, task, data)
+        updated_task, modified = db.update_task(project_pk, task, data)
+        if not modified or updated_task is None:
+            return make_response(jsonify(), 404)
         return make_response(jsonify(updated_task), 200)
 
 

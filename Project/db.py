@@ -307,12 +307,19 @@ class DataBase:
         return final_task
 
     def add_task(self, task, project_pk):
+        if task is None:
+            return None
         order = self.db.session.query(Task).join(Project).filter(Project.id == project_pk).count() + 1
         if 'due_date' in task:
             date = datetime.strptime(task['due_date'], "%a, %d %b %Y %H:%M:%S %Z")
         else:
             date = datetime.now() + timedelta(days=2)
-        task_obj = Task(task['title'], order, date, False, project_pk)
+
+        if 'title' in task:
+            title = task['title']
+        else:
+            return None
+        task_obj = Task(title, order, date, False, project_pk)
 
         self.db.session.add(task_obj)
         self.db.session.commit()
@@ -322,20 +329,25 @@ class DataBase:
         return dic
 
     def update_task(self, project_pk, task, data):
+        if data is None:
+            return None, False
         t = self.db.session.query(Task).get(task['id'])
-
+        modified = False
         for k, v in data.items():
             if k == 'title':
                 t.title = v
+                modified = True
             if k == 'due_date':
                 t.date = datetime.strptime(v, "%a, %d %B %Y %H:%M:%S %Z")
+                modified = True
             if k == 'completed':
                 t.completed = v
+                modified = True
 
         self.db.session.commit()
 
         task_id = t.id
-        return self.get_task(project_pk, task_id)
+        return self.get_task(project_pk, task_id), modified
 
     def remove_task(self, task):
         t = self.db.session.query(Task).get(task['id'])

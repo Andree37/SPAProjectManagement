@@ -13,8 +13,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="320">
-              <caret line="144" column="16" lean-forward="true" selection-start-line="144" selection-start-column="16" selection-end-line="144" selection-end-column="16" />
+            <state relative-caret-position="684">
+              <caret line="242" column="47" selection-start-line="242" selection-start-column="47" selection-end-line="242" selection-end-column="47" />
               <folding>
                 <element signature="e#33#89#0" expanded="true" />
               </folding>
@@ -25,8 +25,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/db.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="122">
-              <caret line="203" column="33" selection-start-line="203" selection-start-column="33" selection-end-line="203" selection-end-column="33" />
+            <state relative-caret-position="176">
+              <caret line="332" column="30" selection-start-line="332" selection-start-column="30" selection-end-line="332" selection-end-column="30" />
               <folding>
                 <element signature="e#49#79#0" expanded="true" />
               </folding>
@@ -37,8 +37,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/test_app.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="230">
-              <caret line="254" column="47" selection-start-line="254" selection-start-column="8" selection-end-line="254" selection-end-column="47" />
+            <state relative-caret-position="212">
+              <caret line="487" column="45" selection-start-line="487" selection-start-column="45" selection-end-line="487" selection-end-column="45" />
             </state>
           </provider>
         </entry>
@@ -76,9 +76,9 @@
         <option value="$PROJECT_DIR$/settings.py" />
         <option value="$PROJECT_DIR$/app.test.py" />
         <option value="$PROJECT_DIR$/app_test.py" />
-        <option value="$PROJECT_DIR$/test_app.py" />
-        <option value="$PROJECT_DIR$/app.py" />
         <option value="$PROJECT_DIR$/db.py" />
+        <option value="$PROJECT_DIR$/app.py" />
+        <option value="$PROJECT_DIR$/test_app.py" />
       </list>
     </option>
   </component>
@@ -92,7 +92,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -104,6 +103,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -127,7 +127,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python tests.Unittests for test_app.BasicTests.test_single_project_update_unauthorized">
+  <component name="RunManager" selected="Python tests.Unittests for test_app.BasicTests">
     <configuration name="app" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Project" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -149,7 +149,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Unittests for test_app.BasicTests.test_register_ok" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+    <configuration name="Unittests for test_app.BasicTests" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
       <module name="Project" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -159,11 +159,11 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test_app.BasicTests.test_register_ok&quot;" />
+      <option name="_new_target" value="&quot;test_app.BasicTests&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Unittests for test_app.BasicTests.test_single_project_update_unauthorized" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+    <configuration name="Unittests for test_app.BasicTests.test_admin_privilege_deny" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
       <module name="Project" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -173,11 +173,11 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test_app.BasicTests.test_single_project_update_unauthorized&quot;" />
+      <option name="_new_target" value="&quot;test_app.BasicTests.test_admin_privilege_deny&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Unittests for test_app.BasicTests.test_single_user" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+    <configuration name="Unittests for test_app.BasicTests.test_single_user_update_on_bad_input" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
       <module name="Project" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -187,7 +187,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test_app.BasicTests.test_single_user&quot;" />
+      <option name="_new_target" value="&quot;test_app.BasicTests.test_single_user_update_on_bad_input&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
@@ -207,11 +207,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python tests.Unittests for test_app.BasicTests.test_single_project_update_unauthorized" />
+        <item itemvalue="Python tests.Unittests for test_app.BasicTests" />
         <item itemvalue="Python.app" />
+        <item itemvalue="Python tests.Unittests for test_app.BasicTests.test_admin_privilege_deny" />
+        <item itemvalue="Python tests.Unittests for test_app.BasicTests.test_single_user_update_on_bad_input" />
         <item itemvalue="Python tests.Unittests in test_app.py" />
-        <item itemvalue="Python tests.Unittests for test_app.BasicTests.test_register_ok" />
-        <item itemvalue="Python tests.Unittests for test_app.BasicTests.test_single_user" />
       </list>
     </recent_temporary>
   </component>
@@ -229,35 +229,35 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="Unittests_in_test_app_py - 2019.06.11 at 11h 32m 24s.xml">
-      <configuration name="Unittests in test_app.py" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Unittests_for_test_app_BasicTests_test_register_ok - 2019.06.11 at 11h 35m 46s.xml">
-      <configuration name="Unittests for test_app.BasicTests.test_register_ok" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Unittests_for_test_app_BasicTests_test_register_ok - 2019.06.11 at 11h 36m 18s.xml">
-      <configuration name="Unittests for test_app.BasicTests.test_register_ok" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Unittests_for_test_app_BasicTests_test_register_ok - 2019.06.11 at 11h 37m 14s.xml">
-      <configuration name="Unittests for test_app.BasicTests.test_register_ok" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Unittests_for_test_app_BasicTests_test_register_ok - 2019.06.11 at 11h 37m 47s.xml">
-      <configuration name="Unittests for test_app.BasicTests.test_register_ok" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Unittests_for_test_app_BasicTests_test_register_ok - 2019.06.11 at 11h 38m 08s.xml">
-      <configuration name="Unittests for test_app.BasicTests.test_register_ok" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Unittests_in_test_app_py - 2019.06.14 at 14h 47m 27s.xml">
-      <configuration name="Unittests in test_app.py" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Unittests_in_test_app_py - 2019.06.14 at 15h 47m 31s.xml">
-      <configuration name="Unittests in test_app.py" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Unittests_in_test_app_py - 2019.06.14 at 16h 03m 28s.xml">
-      <configuration name="Unittests in test_app.py" configurationId="tests" />
-    </history-entry>
     <history-entry file="Unittests_for_test_app_BasicTests_test_single_project_update_unauthorized - 2019.06.14 at 16h 08m 11s.xml">
       <configuration name="Unittests for test_app.BasicTests.test_single_project_update_unauthorized" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_in_test_app_py - 2019.06.15 at 02h 15m 02s.xml">
+      <configuration name="Unittests in test_app.py" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_test_app_BasicTests_test_single_user_update_on_bad_input - 2019.06.15 at 02h 17m 41s.xml">
+      <configuration name="Unittests for test_app.BasicTests.test_single_user_update_on_bad_input" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_test_app_BasicTests - 2019.06.15 at 02h 21m 31s.xml">
+      <configuration name="Unittests for test_app.BasicTests" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_test_app_BasicTests_test_admin_privilege_deny - 2019.06.15 at 02h 22m 12s.xml">
+      <configuration name="Unittests for test_app.BasicTests.test_admin_privilege_deny" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_test_app_BasicTests_test_admin_privilege_deny - 2019.06.15 at 02h 24m 14s.xml">
+      <configuration name="Unittests for test_app.BasicTests.test_admin_privilege_deny" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_test_app_BasicTests - 2019.06.15 at 02h 28m 12s.xml">
+      <configuration name="Unittests for test_app.BasicTests" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_test_app_BasicTests - 2019.06.15 at 02h 36m 38s.xml">
+      <configuration name="Unittests for test_app.BasicTests" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_test_app_BasicTests - 2019.06.15 at 02h 46m 46s.xml">
+      <configuration name="Unittests for test_app.BasicTests" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_test_app_BasicTests - 2019.06.15 at 02h 52m 00s.xml">
+      <configuration name="Unittests for test_app.BasicTests" configurationId="tests" />
     </history-entry>
   </component>
   <component name="TodoView">
@@ -278,7 +278,7 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32956153" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.33097595" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.33097595" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39886847" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -399,30 +399,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="144" column="16" lean-forward="true" selection-start-line="144" selection-start-column="16" selection-end-line="144" selection-end-column="16" />
-          <folding>
-            <element signature="e#33#89#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/db.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="122">
-          <caret line="203" column="33" selection-start-line="203" selection-start-column="33" selection-end-line="203" selection-end-column="33" />
+        <state relative-caret-position="176">
+          <caret line="332" column="30" selection-start-line="332" selection-start-column="30" selection-end-line="332" selection-end-column="30" />
           <folding>
             <element signature="e#49#79#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="684">
+          <caret line="242" column="47" selection-start-line="242" selection-start-column="47" selection-end-line="242" selection-end-column="47" />
+          <folding>
+            <element signature="e#33#89#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/test_app.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="230">
-          <caret line="254" column="47" selection-start-line="254" selection-start-column="8" selection-end-line="254" selection-end-column="47" />
+        <state relative-caret-position="212">
+          <caret line="487" column="45" selection-start-line="487" selection-start-column="45" selection-end-line="487" selection-end-column="45" />
         </state>
       </provider>
     </entry>
