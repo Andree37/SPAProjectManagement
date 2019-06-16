@@ -189,8 +189,10 @@ function getProjects() {
             div.setAttribute("style", "padding-top: 2vh; margin-right: 4vh; width: 25%; display: inline-block;");
 
             let title_box = document.createElement("input");
+            title_box.setAttribute("onchange", "updateProject("+projects[i].id+")");
+            title_box.setAttribute("style", "border:0;");
             title_box.value = projects[i].title;
-            
+
             let remove = document.createElement("a");
             let remove_span = document.createElement("span");
             remove_span.setAttribute("class", "glyphicon glyphicon-trash");
@@ -198,16 +200,9 @@ function getProjects() {
             remove.setAttribute("style", "display: inline; right: 0px;");
             remove.appendChild(remove_span);
 
-            let edit = document.createElement("a");
-            let edit_span = document.createElement("span");
-            edit_span.setAttribute("class", "glyphicon glyphicon-pencil");
-            edit.setAttribute("onClick", "updateProject(" + projects[i].id + ")");
-            edit.setAttribute("style", "margin-left: 2vh; display: inline; right: 0px;");
-            edit.appendChild(edit_span);
 
             div.appendChild(title_box);
             div.appendChild(remove);
-            div.appendChild(edit);
 
             table.appendChild(div);
             getTasks(projects[i].id);
@@ -231,16 +226,17 @@ function getTasks(project_id) {
 
         div.setAttribute("style", "display: inline");
         for (var j in tasks) {
-            let content = document.createElement("p");
-            content.setAttribute("style", "display: inline; width: 90% margin: 0; text-decoration: none");
-            content.textContent = "| " + tasks[j].title;
+            let content = document.createElement("input");
+            content.setAttribute("onchange", "updateTask("+project_id+","+tasks[j].id+")");
+            content.setAttribute("style", "display: inline; width: 80%; margin: 0; text-decoration: none; border:0;");
+            content.value =  tasks[j].title;
 
             let checkbox_div = document.createElement("div");
             let checkbox = document.createElement("input");
             checkbox.setAttribute("type", "checkbox");
             if (tasks[j].completed === true) {
                 checkbox.setAttribute("checked", "true");
-                content.setAttribute("style", "display: inline; width: 90% margin: 0; text-decoration: line-through;");
+                content.setAttribute("style", "display: inline; width:80%; margin: 0; text-decoration: line-through; border:0;");
             }
             checkbox.setAttribute("onClick", "setTaskState(" + project_id + ", " + tasks[j].id + ", " + tasks[j].completed + ")");
             checkbox_div.setAttribute("style", "display: inline; margin-right: 1vh;");
@@ -260,19 +256,14 @@ function getTasks(project_id) {
             remove.setAttribute("style", "display: inline; margin-left: 1vh;");
             remove.appendChild(remove_span);
 
-            let edit = document.createElement("a");
-            let edit_span = document.createElement("span");
-            edit_span.setAttribute("class", "glyphicon glyphicon-pencil");
-            edit.setAttribute("onClick", "updateTask(" + project_id + ", " + tasks[j].id + ") ");
-            edit.setAttribute("style", "display: inline; margin-left: 1vh;");
-            edit.appendChild(edit_span);
+
 
             let line = document.createElement("p");
             line.setAttribute("id", "line" + tasks[j].id);
             line.appendChild(checkbox_div);
             line.appendChild(content);
             line.appendChild(remove);
-            line.appendChild(edit);
+
 
             li.appendChild(line);
             ul.appendChild(li);
@@ -314,16 +305,17 @@ function setTaskState(project_id, task_id, state) {
         let old_p = document.getElementById("line" + task_id);
         old_p.parentNode.removeChild(old_p);
 
-        let content = document.createElement("p");
-        content.setAttribute("style", "display: inline; width: 90% margin: 0; text-decoration: none");
-        content.textContent = "| " + task.title;
+        let content = document.createElement("input");
+        content.setAttribute("onchange", "updateTask("+project_id+","+task.id+")");
+        content.setAttribute("style", "display: inline; width: 80%; margin: 0; text-decoration: none; border:0;");
+        content.value = task.title;
 
         let checkbox_div = document.createElement("div");
         let checkbox = document.createElement("input");
         checkbox.setAttribute("type", "checkbox");
         if (task.completed === true) {
             checkbox.setAttribute("checked", "true");
-            content.setAttribute("style", "display: inline; width: 90% margin: 0; text-decoration: line-through;");
+            content.setAttribute("style", "display: inline; width: 80%; margin: 0; text-decoration: line-through; border:0;");
         }
         checkbox.setAttribute("onClick", "setTaskState(" + project_id + ", " + task.id + ", " + task.completed + ")");
         checkbox_div.setAttribute("style", "display: inline; margin-right: 1vh;");
@@ -342,19 +334,14 @@ function setTaskState(project_id, task_id, state) {
         remove.setAttribute("style", "display: inline; margin-left: 1vh;");
         remove.appendChild(remove_span);
 
-        let edit = document.createElement("a");
-        let edit_span = document.createElement("span");
-        edit_span.setAttribute("class", "glyphicon glyphicon-pencil");
-        edit.setAttribute("onClick", "updateTask(" + project_id + ", " + task.id + ") ");
-        edit.setAttribute("style", "display: inline; margin-left: 1vh;");
-        edit.appendChild(edit_span);
+
 
         let line = document.createElement("p");
         line.setAttribute("id", "line" + task.id);
         line.appendChild(checkbox_div);
         line.appendChild(content);
         line.appendChild(remove);
-        line.appendChild(edit);
+
 
         li.appendChild(line);
 
@@ -394,18 +381,19 @@ function addTask(project_id) {
 
         var task = JSON.parse(this.responseText);
         let div = document.getElementById("project" + project_id);
-        let ul = div.childNodes[3].childNodes[0];
+        let ul = div.childNodes[2].childNodes[0];
 
-        let content = document.createElement("p");
-        content.setAttribute("style", "display: inline; width: 90% margin: 0; text-decoration: none");
-        content.textContent = "| " + task.title;
+        let content = document.createElement("input");
+        content.setAttribute("onchange", "updateTask("+project_id+","+task.id+")");
+        content.setAttribute("style", "display: inline; width: 80%; margin: 0; text-decoration: none; border:0;");
+        content.value = task.title;
 
         let checkbox_div = document.createElement("div");
         let checkbox = document.createElement("input");
         checkbox.setAttribute("type", "checkbox");
         if (task.completed === true) {
             checkbox.setAttribute("checked", "true");
-            content.setAttribute("style", "display: inline; width: 90% margin: 0; text-decoration: line-through;");
+            content.setAttribute("style", "display: inline; width: 80%; margin: 0; text-decoration: line-through; border:0;");
         }
         checkbox.setAttribute("onClick", "setTaskState(" + project_id + ", " + task.id + ", " + task.completed + ")");
         checkbox_div.setAttribute("style", "display: inline; margin-right: 1vh;");
@@ -425,19 +413,12 @@ function addTask(project_id) {
         remove.setAttribute("style", "display: inline; margin-left: 1vh;");
         remove.appendChild(remove_span);
 
-        let edit = document.createElement("a");
-        let edit_span = document.createElement("span");
-        edit_span.setAttribute("class", "glyphicon glyphicon-pencil");
-        edit.setAttribute("onClick", "updateTask(" + project_id + ", " + task.id + ") ");
-        edit.setAttribute("style", "display: inline; margin-left: 1vh;");
-        edit.appendChild(edit_span);
 
         let line = document.createElement("p");
         line.setAttribute("id", "line" + task.id);
         line.appendChild(checkbox_div);
         line.appendChild(content);
         line.appendChild(remove);
-        line.appendChild(edit);
 
         li.appendChild(line);
         ul.appendChild(li);
@@ -452,23 +433,18 @@ function addTask(project_id) {
 
 function updateTask(project_id, task_id) {
     var txt = document.getElementById("txt" + project_id);
-    var task = document.getElementById("task" + task_id);
-    let title = txt.value;
+    var task = document.getElementById("line" + task_id).childNodes[1];
+    let new_title = task.value;
     var req = new XMLHttpRequest();
     req.open("PUT", "/api/projects/" + project_id + "/tasks/" + task_id + "/");
     req.addEventListener("load", function () {
         if (req.status != 200) {
             return;
         }
-        txt.value = "";
-        let content = document.createElement("p");
-        content.setAttribute("style", "display: inline; width: 90% margin: 0; text-decoration: none");
-        content.textContent = "| " + title;
-
-        task.childNodes[0].childNodes[1].replaceWith(content);
+        task.value = new_title
     });
     let json = JSON.stringify({
-        title: title
+        title: new_title
     });
     req.setRequestHeader("Content-type", "application/json");
     req.send(json);
@@ -494,8 +470,10 @@ function addProject() {
             div.setAttribute("id", "project" + project.id);
             div.setAttribute("class", "w3-panel w3-card");
             div.setAttribute("style", "padding-top: 2vh; margin-right: 4vh; width: 25%; display: inline-block;");
-            
+
             let title_box = document.createElement("input");
+            title_box.setAttribute("onchange", "updateProject("+project.id+")");
+            title_box.setAttribute("style", "border:0;");
             title_box.value = project.title;
 
             let remove = document.createElement("a");
@@ -505,16 +483,8 @@ function addProject() {
             remove.setAttribute("style", "display: inline; margin-left: 15vh;");
             remove.appendChild(remove_span);
 
-            let edit = document.createElement("a");
-            let edit_span = document.createElement("span");
-            edit_span.setAttribute("class", "glyphicon glyphicon-pencil");
-            edit.setAttribute("onClick", "updateProject(" + project.id + ")");
-            edit.setAttribute("style", "margin-left: 2vh; display: inline; right: 0px;");
-            edit.appendChild(edit_span);
-
             div.appendChild(title_box);
             div.appendChild(remove);
-            div.appendChild(edit);
 
             table.appendChild(div);
             getTasks(project.id);
