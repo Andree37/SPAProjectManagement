@@ -1,6 +1,6 @@
 """
- Implements a simple database of users.
-
+ Implements a SQlAlchemy database of user, projects and tasks. As well as CRUD functions
+ Made by: André Ribeiro & Daniel Afonso
 """
 from datetime import timedelta
 
@@ -14,9 +14,11 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, backref
 import hashlib
 
+# Creates a base for the database tables
 Base = declarative_base()
 
 
+# Table User
 class User(Base, UserMixin):
     __tablename__ = "users"
 
@@ -40,6 +42,7 @@ class User(Base, UserMixin):
         return '<User %r>' % self.username
 
 
+# Table Project
 class Project(Base):
     __tablename__ = "projects"
 
@@ -61,6 +64,7 @@ class Project(Base):
         return '<Project %r>' % self.title
 
 
+# Table task
 class Task(Base):
     __tablename__ = "tasks"
 
@@ -86,6 +90,7 @@ class Task(Base):
         return '<Task %r>' % self.title
 
 
+# Aux function to turn objects into a dictionary
 def as_dict(obj):
     if obj is None:
         return {}
@@ -96,6 +101,7 @@ class DataBase:
     def __init__(self, app):
         self.db = SQLAlchemy(app)
 
+    # Recreates the database with a population
     def recreate_db(self):
 
         engine = create_engine('sqlite:///user.db')

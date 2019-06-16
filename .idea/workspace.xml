@@ -13,10 +13,10 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Project/test_app.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1450">
-              <caret line="254" column="31" lean-forward="true" selection-start-line="254" selection-start-column="31" selection-end-line="254" selection-end-column="31" />
+            <state relative-caret-position="51">
+              <caret line="3" column="3" lean-forward="true" selection-start-line="3" selection-start-column="3" selection-end-line="3" selection-end-column="3" />
               <folding>
-                <element signature="e#0#15#0" expanded="true" />
+                <element signature="e#2#17#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -25,8 +25,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Project/app.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="104">
-              <caret line="64" column="15" lean-forward="true" selection-start-line="167" selection-start-column="15" selection-end-line="167" selection-end-column="28" />
+            <state>
+              <caret selection-end-line="3" selection-end-column="3" />
               <folding>
                 <element signature="e#33#89#0" expanded="true" />
               </folding>
@@ -37,8 +37,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Project/db.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1326">
-              <caret line="88" selection-start-line="84" selection-end-line="88" />
+            <state relative-caret-position="34">
+              <caret line="2" column="39" selection-start-line="2" selection-start-column="39" selection-end-line="2" selection-end-column="39" />
             </state>
           </provider>
         </entry>
@@ -51,6 +51,8 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
+        <option value="$PROJECT_DIR$/Project/app.py" />
+        <option value="$PROJECT_DIR$/Project/db.py" />
         <option value="$PROJECT_DIR$/Project/test_app.py" />
       </list>
     </option>
@@ -100,7 +102,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python tests.Unittests for test_app.BasicTests.test_single_project_update_unauthorized">
+  <component name="RunManager" selected="Python tests.Unittests in test_app.py">
     <configuration name="app" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="SPAProjectManagement" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -123,7 +125,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Unittests for test_app.BasicTests.test_single_project_update_bad_input" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+    <configuration name="Unittests for test_app.BasicTests.test_all_tasks_get_ok" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
       <module name="SPAProjectManagement" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -134,7 +136,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test_app.BasicTests.test_single_project_update_bad_input&quot;" />
+      <option name="_new_target" value="&quot;test_app.BasicTests.test_all_tasks_get_ok&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
@@ -153,21 +155,6 @@
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Unittests for test_app.BasicTests.test_single_project_update_ok" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
-      <module name="SPAProjectManagement" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Project" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test_app.BasicTests.test_single_project_update_ok&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
     <configuration name="Unittests for test_app.BasicTests.test_single_project_update_unauthorized" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
       <module name="SPAProjectManagement" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -183,13 +170,28 @@
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
+    <configuration name="Unittests in test_app.py" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="SPAProjectManagement" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Project" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/Project/test_app.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python tests.Unittests for test_app.BasicTests.test_single_project_update_unauthorized" />
+        <item itemvalue="Python tests.Unittests in test_app.py" />
+        <item itemvalue="Python tests.Unittests for test_app.BasicTests.test_all_tasks_get_ok" />
         <item itemvalue="Python.app" />
+        <item itemvalue="Python tests.Unittests for test_app.BasicTests.test_single_project_update_unauthorized" />
         <item itemvalue="Python tests.Unittests for test_app.BasicTests.test_single_project_update_no_input" />
-        <item itemvalue="Python tests.Unittests for test_app.BasicTests.test_single_project_update_bad_input" />
-        <item itemvalue="Python tests.Unittests for test_app.BasicTests.test_single_project_update_ok" />
       </list>
     </recent_temporary>
   </component>
@@ -209,49 +211,50 @@
       <workItem from="1560379588081" duration="1797000" />
       <workItem from="1560381431140" duration="1832000" />
       <workItem from="1560383285381" duration="251000" />
+      <workItem from="1560687379790" duration="1750000" />
+      <workItem from="1560689156998" duration="966000" />
     </task>
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="Unittests_for_test_app_BasicTests_test_single_project_get_unauthorized - 2019.06.13 at 00h 24m 46s.xml">
-      <configuration name="Unittests for test_app.BasicTests.test_single_project_get_unauthorized" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Unittests_for_test_app_BasicTests_test_single_project_delete_ok - 2019.06.13 at 00h 24m 57s.xml">
-      <configuration name="Unittests for test_app.BasicTests.test_single_project_delete_ok" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Unittests_for_test_app_BasicTests_test_single_project_delete_unauthorized - 2019.06.13 at 00h 26m 37s.xml">
-      <configuration name="Unittests for test_app.BasicTests.test_single_project_delete_unauthorized" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Unittests_for_test_app_BasicTests_test_single_project_update_ok - 2019.06.13 at 00h 27m 00s.xml">
-      <configuration name="Unittests for test_app.BasicTests.test_single_project_update_ok" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Unittests_for_test_app_BasicTests_test_single_project_update_bad_input - 2019.06.13 at 00h 28m 21s.xml">
-      <configuration name="Unittests for test_app.BasicTests.test_single_project_update_bad_input" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Unittests_for_test_app_BasicTests_test_single_project_update_no_input - 2019.06.13 at 00h 36m 10s.xml">
-      <configuration name="Unittests for test_app.BasicTests.test_single_project_update_no_input" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Unittests_for_test_app_BasicTests_test_single_project_update_unauthorized - 2019.06.13 at 00h 37m 32s.xml">
-      <configuration name="Unittests for test_app.BasicTests.test_single_project_update_unauthorized" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Unittests_for_test_app_BasicTests_test_single_project_update_unauthorized - 2019.06.13 at 00h 37m 47s.xml">
-      <configuration name="Unittests for test_app.BasicTests.test_single_project_update_unauthorized" configurationId="tests" />
-    </history-entry>
     <history-entry file="Unittests_for_test_app_BasicTests_test_single_project_update_unauthorized - 2019.06.13 at 00h 50m 51s.xml">
       <configuration name="Unittests for test_app.BasicTests.test_single_project_update_unauthorized" configurationId="tests" />
     </history-entry>
     <history-entry file="Unittests_for_test_app_BasicTests_test_single_project_update_unauthorized - 2019.06.13 at 00h 51m 09s.xml">
       <configuration name="Unittests for test_app.BasicTests.test_single_project_update_unauthorized" configurationId="tests" />
     </history-entry>
+    <history-entry file="Unittests_in_test_app_py - 2019.06.16 at 13h 18m 05s.xml">
+      <configuration name="Unittests in test_app.py" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_in_test_app_py - 2019.06.16 at 13h 23m 14s.xml">
+      <configuration name="Unittests in test_app.py" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_in_test_app_py - 2019.06.16 at 13h 27m 49s.xml">
+      <configuration name="Unittests in test_app.py" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_in_test_app_py - 2019.06.16 at 13h 31m 07s.xml">
+      <configuration name="Unittests in test_app.py" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_test_app_BasicTests_test_all_tasks_get_ok - 2019.06.16 at 13h 31m 16s.xml">
+      <configuration name="Unittests for test_app.BasicTests.test_all_tasks_get_ok" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_test_app_BasicTests_test_all_tasks_get_ok - 2019.06.16 at 13h 31m 50s.xml">
+      <configuration name="Unittests for test_app.BasicTests.test_all_tasks_get_ok" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_test_app_BasicTests_test_all_tasks_get_ok - 2019.06.16 at 13h 35m 33s.xml">
+      <configuration name="Unittests for test_app.BasicTests.test_all_tasks_get_ok" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_in_test_app_py - 2019.06.16 at 13h 41m 21s.xml">
+      <configuration name="Unittests in test_app.py" configurationId="tests" />
+    </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="7491000" />
+    <option name="totallyTimeSpent" value="10207000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1376" height="744" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.26899695" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2773556" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -285,11 +288,12 @@
     <SUITE FILE_PATH="coverage/SPAProjectManagement$Unittests_for_test_app_BasicTests_test_all_projects_get_unauthorized.coverage" NAME="Unittests for test_app.BasicTests.test_all_projects_get_unauthorized Coverage Results" MODIFIED="1560377173023" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Project" />
     <SUITE FILE_PATH="coverage/SPAProjectManagement$Unittests_for_test_app_BasicTests_test_single_project_delete_unauthorized.coverage" NAME="Unittests for test_app.BasicTests.test_single_project_delete_unauthorized Coverage Results" MODIFIED="1560381993893" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Project" />
     <SUITE FILE_PATH="coverage/SPAProjectManagement$Unittests_for_test_app_BasicTests_test_single_project_update_ok.coverage" NAME="Unittests for test_app.BasicTests.test_single_project_update_ok Coverage Results" MODIFIED="1560382013083" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Project" />
-    <SUITE FILE_PATH="coverage/SPAProjectManagement$app.coverage" NAME="app Coverage Results" MODIFIED="1560383455877" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Project" />
+    <SUITE FILE_PATH="coverage/SPAProjectManagement$app.coverage" NAME="app Coverage Results" MODIFIED="1560688510946" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Project" />
     <SUITE FILE_PATH="coverage/SPAProjectManagement$Unittests_for_test_app_BasicTests_test_all_projects_get_ok.coverage" NAME="Unittests for test_app.BasicTests.test_all_projects_get_ok Coverage Results" MODIFIED="1560376980095" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Project" />
     <SUITE FILE_PATH="coverage/SPAProjectManagement$Unittests_for_test_app_BasicTests_test_single_project_delete_ok.coverage" NAME="Unittests for test_app.BasicTests.test_single_project_delete_ok Coverage Results" MODIFIED="1560381890895" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Project" />
     <SUITE FILE_PATH="coverage/SPAProjectManagement$Unittests_for_test_app_BasicTests_test_single_project_ok.coverage" NAME="Unittests for test_app.BasicTests.test_single_project_ok Coverage Results" MODIFIED="1560378617410" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Project" />
-    <SUITE FILE_PATH="coverage/SPAProjectManagement$Unittests_in_test_app_py.coverage" NAME="Unittests in test_app.py Coverage Results" MODIFIED="1560377902037" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Project" />
+    <SUITE FILE_PATH="coverage/SPAProjectManagement$Unittests_for_test_app_BasicTests_test_all_tasks_get_ok.coverage" NAME="Unittests for test_app.BasicTests.test_all_tasks_get_ok Coverage Results" MODIFIED="1560688525207" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Project" />
+    <SUITE FILE_PATH="coverage/SPAProjectManagement$Unittests_in_test_app_py.coverage" NAME="Unittests in test_app.py Coverage Results" MODIFIED="1560688565572" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Project" />
     <SUITE FILE_PATH="coverage/SPAProjectManagement$Unittests_for_test_app_BasicTests_test_all_projects_ok.coverage" NAME="Unittests for test_app.BasicTests.test_all_projects_ok Coverage Results" MODIFIED="1560378379707" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Project" />
     <SUITE FILE_PATH="coverage/SPAProjectManagement$Unittests_for_test_app_BasicTests_test_single_project_update_bad_input.coverage" NAME="Unittests for test_app.BasicTests.test_single_project_update_bad_input Coverage Results" MODIFIED="1560382097211" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Project" />
     <SUITE FILE_PATH="coverage/SPAProjectManagement$Unittests_for_test_app_BasicTests_test_single_project_update_unauthorized.coverage" NAME="Unittests for test_app.BasicTests.test_single_project_update_unauthorized Coverage Results" MODIFIED="1560383464785" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Project" />
@@ -300,15 +304,15 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/Project/db.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1326">
-          <caret line="88" selection-start-line="84" selection-end-line="88" />
+        <state relative-caret-position="34">
+          <caret line="2" column="39" selection-start-line="2" selection-start-column="39" selection-end-line="2" selection-end-column="39" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Project/app.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="104">
-          <caret line="64" column="15" lean-forward="true" selection-start-line="167" selection-start-column="15" selection-end-line="167" selection-end-column="28" />
+        <state>
+          <caret selection-end-line="3" selection-end-column="3" />
           <folding>
             <element signature="e#33#89#0" expanded="true" />
           </folding>
@@ -317,10 +321,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Project/test_app.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1450">
-          <caret line="254" column="31" lean-forward="true" selection-start-line="254" selection-start-column="31" selection-end-line="254" selection-end-column="31" />
+        <state relative-caret-position="51">
+          <caret line="3" column="3" lean-forward="true" selection-start-line="3" selection-start-column="3" selection-end-line="3" selection-end-column="3" />
           <folding>
-            <element signature="e#0#15#0" expanded="true" />
+            <element signature="e#2#17#0" expanded="true" />
           </folding>
         </state>
       </provider>

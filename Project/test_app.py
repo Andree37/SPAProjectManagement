@@ -1,9 +1,13 @@
+"""
+ Integration Tests for app
+ Made by: André Ribeiro & Daniel Afonso
+"""
 import unittest
 import requests
 from datetime import timedelta, datetime
-# To test this, app.py must be running in a different thread
+# To test this, app.py must be running in a different thread or the web site must be running
 
-base_url = 'http://darfkman.pythonanywhere.com/' # "http://localhost:8000/"
+base_url = 'http://darfkman.pythonanywhere.com/'  # "http://localhost:8000/"
 s = requests.Session()
 
 
@@ -72,11 +76,6 @@ class BasicTests(unittest.TestCase):
     def test_main(self):
         response = s.get(base_url)
         self.assertEqual(response.status_code, 200)
-
-    # Test non existing page
-    def test_non_existing_page(self):
-        response = s.get(base_url+'/12j312h3h')
-        self.assertEqual(response.status_code, 404)
 
     # Registration Tests
     # Test regular registration
