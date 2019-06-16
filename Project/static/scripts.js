@@ -187,27 +187,28 @@ function getProjects() {
             div.setAttribute("id", "project" + projects[i].id);
             div.setAttribute("class", "w3-panel w3-card");
             div.setAttribute("style", "padding-top: 2vh; margin-right: 4vh; width: 25%; display: inline-block;");
-            div.textContent = projects[i].title;
 
-            let button = document.createElement("button");
-            button.setAttribute("type", "button");
-            button.setAttribute("class", "btn btn-outline-danger");
-            button.setAttribute("style", "width: 50%;");
-            button.setAttribute("onClick", "removeProject(" + projects[i].id + ")")
-            button.textContent = "Remove Project";
+            let title_box = document.createElement("input");
+            title_box.value = projects[i].title;
+            
+            let remove = document.createElement("a");
+            let remove_span = document.createElement("span");
+            remove_span.setAttribute("class", "glyphicon glyphicon-trash");
+            remove.setAttribute("onClick", "removeProject(" + projects[i].id + ")");
+            remove.setAttribute("style", "display: inline; right: 0px;");
+            remove.appendChild(remove_span);
 
-            let edit = document.createElement("button");
-            edit.setAttribute("type", "button");
-            edit.setAttribute("class", "btn btn-outline-danger");
-            edit.setAttribute("style", "width: 50%;");
-            edit.setAttribute("onClick", "updateProject(" + projects[i].id + ")")
-            edit.textContent = "Update Project";
+            let edit = document.createElement("a");
+            let edit_span = document.createElement("span");
+            edit_span.setAttribute("class", "glyphicon glyphicon-pencil");
+            edit.setAttribute("onClick", "updateProject(" + projects[i].id + ")");
+            edit.setAttribute("style", "margin-left: 2vh; display: inline; right: 0px;");
+            edit.appendChild(edit_span);
 
-            let button_div = document.createElement("div");
-            button_div.appendChild(button);
-            button_div.appendChild(edit);
+            div.appendChild(title_box);
+            div.appendChild(remove);
+            div.appendChild(edit);
 
-            div.appendChild(button_div);
             table.appendChild(div);
             getTasks(projects[i].id);
         }
@@ -393,7 +394,7 @@ function addTask(project_id) {
 
         var task = JSON.parse(this.responseText);
         let div = document.getElementById("project" + project_id);
-        let ul = div.childNodes[2].childNodes[0];
+        let ul = div.childNodes[3].childNodes[0];
 
         let content = document.createElement("p");
         content.setAttribute("style", "display: inline; width: 90% margin: 0; text-decoration: none");
@@ -449,25 +450,25 @@ function addTask(project_id) {
     req.send(json);
 }
 
-// todo
 function updateTask(project_id, task_id) {
-    var task = document.getElementById("line" + task_id);
-    // need to get the title from somewhereeeeeeasdasdasdasd
-    let new_title = "test";
+    var txt = document.getElementById("txt" + project_id);
+    var task = document.getElementById("task" + task_id);
+    let title = txt.value;
     var req = new XMLHttpRequest();
     req.open("PUT", "/api/projects/" + project_id + "/tasks/" + task_id + "/");
     req.addEventListener("load", function () {
         if (req.status != 200) {
             return;
         }
+        txt.value = "";
         let content = document.createElement("p");
         content.setAttribute("style", "display: inline; width: 90% margin: 0; text-decoration: none");
-        content.textContent = "/ " + new_title;
+        content.textContent = "| " + title;
 
-        task.childNodes[1].replaceWith(content);
+        task.childNodes[0].childNodes[1].replaceWith(content);
     });
     let json = JSON.stringify({
-        title: new_title
+        title: title
     });
     req.setRequestHeader("Content-type", "application/json");
     req.send(json);
@@ -493,26 +494,27 @@ function addProject() {
             div.setAttribute("id", "project" + project.id);
             div.setAttribute("class", "w3-panel w3-card");
             div.setAttribute("style", "padding-top: 2vh; margin-right: 4vh; width: 25%; display: inline-block;");
-            div.textContent = project.title;
+            
+            let title_box = document.createElement("input");
+            title_box.value = project.title;
 
-            let button = document.createElement("button");
-            button.setAttribute("type", "button");
-            button.setAttribute("class", "btn btn-outline-danger");
-            button.setAttribute("onClick", "removeProject(" + project.id + ")")
-            button.textContent = "Remove Project";
+            let remove = document.createElement("a");
+            let remove_span = document.createElement("span");
+            remove_span.setAttribute("class", "glyphicon glyphicon-trash");
+            remove.setAttribute("onClick", "removeProject(" + project.id + ")");
+            remove.setAttribute("style", "display: inline; margin-left: 15vh;");
+            remove.appendChild(remove_span);
 
-            let edit = document.createElement("button");
-            edit.setAttribute("type", "button");
-            edit.setAttribute("class", "btn btn-outline-danger");
-            edit.setAttribute("style", "width: 50%;");
-            edit.setAttribute("onClick", "updateProject(" + project.id + ")")
-            edit.textContent = "Update Project";
+            let edit = document.createElement("a");
+            let edit_span = document.createElement("span");
+            edit_span.setAttribute("class", "glyphicon glyphicon-pencil");
+            edit.setAttribute("onClick", "updateProject(" + project.id + ")");
+            edit.setAttribute("style", "margin-left: 2vh; display: inline; right: 0px;");
+            edit.appendChild(edit_span);
 
-            let button_div = document.createElement("div");
-            button_div.appendChild(button);
-            button_div.appendChild(edit);
-
-            div.appendChild(button_div);
+            div.appendChild(title_box);
+            div.appendChild(remove);
+            div.appendChild(edit);
 
             table.appendChild(div);
             getTasks(project.id);
@@ -534,11 +536,9 @@ function removeProject(project_id) {
     req.send();
 }
 
-// todo
 function updateProject(project_id) {
     var project = document.getElementById("project" + project_id);
-    // need to get the title from somewhereeeeeeasdasdasdasd
-    let new_title = "test";
+    let new_title = project.childNodes[0].value;
     var req = new XMLHttpRequest();
     req.open("PUT", "/api/projects/" + project_id + "/");
     req.addEventListener("load", function () {
@@ -546,7 +546,7 @@ function updateProject(project_id) {
             return;
         }
         div = project.childNodes[0];
-        div.textContent = new_title;
+        div.value = new_title;
 
     });
     let json = JSON.stringify({
